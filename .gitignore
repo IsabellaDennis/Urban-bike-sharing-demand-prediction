@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# CatBoost training artifacts
+catboost_info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.env/
+env/
+ENV/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*_backup.*
+*.swp
+*~
+
+# Large files exceeding GitHub's 100MB limit
+*station_hourly_demand_features.csv
+colab_notebooks/*.csv
+colab_notebooks/**/*.csv
+models/random_forest_final_model.pkl

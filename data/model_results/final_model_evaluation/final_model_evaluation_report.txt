@@ -1,0 +1,84 @@
+======================================================================
+URBAN BIKE-SHARING DEMAND PREDICTION: FINAL MODEL EVALUATION REPORT
+======================================================================
+
+1. EXPERIMENTAL SETUP & METHODOLOGY
+----------------------------------------------------------------------
+This evaluation analyzes three tree-based ensemble models trained on the
+urban bike-sharing dataset:
+  - XGBoost Regressor (n_estimators=600, max_depth=10, learning_rate=0.04)
+  - Random Forest Regressor (n_estimators=200, max_depth=15, max_features='sqrt')
+  - CatBoost Regressor (iterations=600, depth=8, learning_rate=0.05)
+
+Dataset Dimensions:
+  - Total records: 1,230,810
+  - Features: 54 audited features (strictly identical across all models)
+  - Split: Chronological unique timestamp split (70% train / 15% validation / 15% test)
+  - Training set: 861,560 records (2013-08-29 09:00:00 to 2015-01-24 04:00:00)
+  - Validation set: 184,590 records (2015-01-24 05:00:00 to 2015-05-14 01:00:00)
+  - Test set: 184,660 records (2015-05-14 02:00:00 to 2015-08-31 23:00:00)
+  - Station-hour overlap across splits: NONE (verified 0 overlapping pairs)
+  - Target leakage: None detected ('demand' excluded from feature set)
+  - Missing values: 0 across all model features
+
+2. MEASURED PERFORMANCE COMPARISON ON UNTOUCHED TEST SET
+----------------------------------------------------------------------
+CatBoost:
+  - Test R2:   0.737738
+  - Test MAE:  0.436126
+  - Test RMSE: 0.897665
+  - Validation R2:   0.736426
+  - Validation MAE:  0.417276
+  - Validation RMSE: 0.883352
+  - Max Absolute Error: 22.4537
+  - Median Absolute Error: 0.1240
+
+XGBoost:
+  - Test R2:   0.736036
+  - Test MAE:  0.430796
+  - Test RMSE: 0.900574
+  - Validation R2:   0.734809
+  - Validation MAE:  0.413275
+  - Validation RMSE: 0.886056
+  - Max Absolute Error: 27.1159
+  - Median Absolute Error: 0.1199
+
+Random Forest:
+  - Test R2:   0.731394
+  - Test MAE:  0.439265
+  - Test RMSE: 0.908459
+  - Validation R2:   0.730423
+  - Validation MAE:  0.422720
+  - Validation RMSE: 0.893354
+  - Max Absolute Error: 23.3285
+  - Median Absolute Error: 0.1256
+
+3. NUMERICAL DIFFERENCES AND CONSISTENCY
+----------------------------------------------------------------------
+- R2 Comparison: CatBoost obtained a test R2 of 0.737738, while XGBoost obtained 0.736036 (difference of 0.001702) and Random Forest obtained 0.731394 (difference of 0.006345).
+- MAE Comparison: XGBoost obtained the lowest test MAE of 0.430796, compared to 0.436126 for CatBoost (difference of 0.005330) and 0.439265 for Random Forest.
+- RMSE Comparison: CatBoost obtained a test RMSE of 0.897665, while XGBoost obtained 0.900574 and Random Forest obtained 0.908459.
+- Generalization Consistency: All three models demonstrated stable consistency between validation and test performance, with test R2 values slightly higher than validation R2 values (delta < 0.003) and test MAE values within 0.017 of validation MAE.
+
+4. ERROR PATTERNS
+----------------------------------------------------------------------
+- Hourly Variation: Error peaks during morning rush hours (08:00 - 09:00) and evening rush hours (17:00 - 18:00), coinciding with elevated commuter demand volume and volatility.
+- Weekday vs. Weekend: Weekdays exhibit higher absolute errors corresponding to higher demand levels, while weekends exhibit lower absolute error with steady baseline usage.
+- Station-Level Differences: Stations with high overall volume exhibit higher variance in residuals, whereas peripheral, low-volume stations show median errors approaching zero.
+
+5. IMPORTANT FEATURES
+----------------------------------------------------------------------
+Across all three algorithms, the primary predictive features were:
+  - same_hour_previous_week (historical 7-day cyclical baseline)
+  - lag_168h (exact 1-week lagged demand)
+  - peak_hour (commuter window indicator)
+  - lag_24h and same_hour_previous_day (diurnal seasonality)
+  - lag_1h (immediate momentum)
+  - rolling_mean_3h and rolling_mean_168h (local trend smoothing)
+
+6. LIMITATIONS
+----------------------------------------------------------------------
+- Severe spike underestimation: Extreme outlier demand surges (e.g. special public events or sudden transit disruptions) are bounded by historical regression averages.
+- Weather absence: Meteorological variables (e.g., precipitation, temperature, wind speed) are not currently incorporated into the dataset, which limits adaptation to weather-induced demand shocks.
+- Non-causal interpretation: Feature importance values reflect variance reduction and split frequency within decision trees; they do not imply causal mechanisms of bike rental behavior.
+======================================================================

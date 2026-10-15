@@ -1,0 +1,6 @@
+rolling_feature,window,maximum_difference
+rolling_mean_3h,3,3.552713678800501e-15
+rolling_mean_6h,6,4.440892098500626e-16
+rolling_mean_12h,12,4.440892098500626e-16
+rolling_mean_24h,24,4.440892098500626e-16
+rolling_mean_168h,168,8.881784197001252e-16

@@ -1,0 +1,10 @@
+lag_feature,expected_lag_hours,matching_percentage
+lag_1h,1,100.0
+lag_2h,2,100.0
+lag_3h,3,100.0
+lag_6h,6,100.0
+lag_12h,12,100.0
+lag_24h,24,100.0
+lag_48h,48,100.0
+lag_72h,72,100.0
+lag_168h,168,100.0

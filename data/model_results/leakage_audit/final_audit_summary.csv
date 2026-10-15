@@ -1,0 +1,8 @@
+metric,value
+dataset_rows,1230810
+original_features,62
+risky_aggregates_removed,5
+demand_change_features_removed,3
+final_features,54
+missing_values,0
+duplicate_station_hours,0

@@ -1,0 +1,2 @@
+model_name,n_estimators,max_depth,min_samples_split,min_samples_leaf,max_features,random_state,features_count,training_rows,validation_rows,test_rows,validation_mae,validation_rmse,validation_r2,test_mae,test_rmse,test_r2,training_time_seconds,prediction_time_seconds
+Random Forest,200,15,10,2,sqrt,42,54,861560,184590,184660,0.42272993203693787,0.8935471524572949,0.7303065817492436,0.43920575700992137,0.9084651238374571,0.7313898357822712,44.47463512420654,1.323467493057251

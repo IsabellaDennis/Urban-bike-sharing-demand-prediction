@@ -1,0 +1,75 @@
+start_station_id,start_station_name,demand
+70,San Francisco Caltrain (Townsend at 4th),49092
+69,San Francisco Caltrain 2 (330 Townsend),33742
+50,Harry Bridges Plaza (Ferry Building),32934
+60,Embarcadero at Sansome,27713
+55,Temporary Transbay Terminal (Howard at Beale),26089
+61,2nd at Townsend,25837
+74,Steuart at Market,24838
+77,Market at Sansome,24172
+65,Townsend at 7th,23724
+67,Market at 10th,20272
+76,Market at 4th,20165
+64,2nd at South Park,18496
+39,Powell Street BART,18378
+73,Grant Avenue at Columbus Avenue,16306
+62,2nd at Folsom,15940
+56,Beale at Market,15709
+54,Embarcadero at Bryant,14811
+72,Civic Center BART (7th at Market),14102
+51,Embarcadero at Folsom,14054
+57,5th at Howard,13526
+63,Howard at 2nd,13163
+66,South Van Ness at Market,12880
+71,Powell at Post (Union Square),12496
+75,Mechanics Plaza (Market at Battery),12224
+49,Spear at Folsom,11949
+45,Commercial at Montgomery,11888
+68,Yerba Buena Center of the Arts (3rd @ Howard),11251
+48,Embarcadero at Vallejo,10592
+82,Broadway St at Battery St,10310
+41,Clay at Battery,9994
+42,Davis at Jackson,9957
+2,San Jose Diridon Caltrain Station,9558
+59,Golden Gate at Polk,7342
+47,Post at Kearny,6960
+28,Mountain View Caltrain Station,6544
+58,San Francisco City Hall,4535
+46,Washington at Kearny,4292
+4,Santa Clara at Almaden,3861
+27,Mountain View City Hall,2984
+6,San Pedro Square,2917
+47,Post at Kearney,2503
+10,San Jose City Hall,2393
+7,Paseo de San Antonio,2233
+34,Palo Alto Caltrain Station,2111
+32,Castro Street and El Camino Real,2035
+11,MLK Library,2034
+29,San Antonio Caltrain Station,1990
+9,Japantown,1910
+31,San Antonio Shopping Center,1818
+84,Ryland Park,1747
+8,San Salvador at 1st,1692
+13,St James Park,1680
+30,Evelyn Park and Ride,1667
+3,San Jose Civic Center,1594
+22,Redwood City Caltrain Station,1554
+35,University and Emerson,1512
+14,Arena Green / SAP Center,1496
+16,SJSU - San Salvador at 9th,1473
+46,Washington at Kearney,1472
+37,Cowper at University,1374
+5,Adobe on Almaden,1257
+12,SJSU 4th at San Carlos,1170
+33,Rengstorff Avenue / California Street,1129
+36,California Ave Caltrain Station,1026
+80,Santa Clara County Civic Center,840
+38,Park at Olive,750
+25,Stanford in Redwood City,436
+83,Mezes Park,341
+26,Redwood City Medical Center,311
+23,San Mateo County Center,287
+21,Franklin at Maple,224
+24,Redwood City Public Library,213
+25,Broadway at Main,67
+80,San Jose Government Center,23

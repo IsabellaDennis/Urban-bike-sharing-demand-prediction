@@ -1,0 +1,15 @@
+metric,value
+model_name,Final XGBoost
+dataset_rows,1230810
+features_count,54
+training_rows,861560
+validation_rows,184590
+test_rows,184660
+validation_mae,0.4138410687446594
+validation_rmse,0.8864359131490682
+validation_r2,0.7345821857452393
+test_mae,0.43054965138435364
+test_rmse,0.8982133005121099
+test_r2,0.737417995929718
+training_time_seconds,386.05515217781067
+prediction_time_seconds,1.5176069736480713

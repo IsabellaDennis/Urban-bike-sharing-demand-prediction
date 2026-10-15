@@ -1,0 +1,1587 @@
+import os
+
+def generate_html():
+    html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urban Bike Sharing Demand Forecasting - Mini Project Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-slate: #1e293b;
+      --bg-light: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f1f5f9;
+      --border: #e2e8f0;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --accent-teal: #0d9488;
+      --accent-amber: #d97706;
+      --accent-rose: #e11d48;
+      --accent-green: #10b981;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #f8fafc;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header.control-bar {
+      background: rgba(15, 23, 42, 0.96);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-pill {
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slide-counter {
+      color: #38bdf8;
+      font-size: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #38bdf8;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-notes {
+      background: rgba(217, 119, 6, 0.2);
+      border-color: rgba(217, 119, 6, 0.4);
+      color: #fbbf24;
+    }
+
+    .btn-notes:hover {
+      background: rgba(217, 119, 6, 0.35);
+    }
+
+    main.presentation-stage {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 20px;
+    }
+
+    .slide-viewport {
+      width: 100%;
+      max-width: 1360px;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-light);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 30px 40px;
+      flex-direction: column;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.996); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .slide.slide-dark {
+      background: var(--bg-dark);
+      color: var(--text-light);
+    }
+
+    .slide-header {
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .slide-dark .slide-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .chip-category {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-stage {
+      background: rgba(2, 132, 199, 0.1);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .slide-title {
+      font-size: 23px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .slide-dark .slide-title {
+      color: #fff;
+    }
+
+    .slide-num-tag {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(0,0,0,0.05);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .slide-dark .slide-num-tag {
+      background: rgba(255,255,255,0.1);
+      color: #38bdf8;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    /* Grids */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .grid-5 {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .col-left {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .col-right {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* Equal Cards System */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      height: 100%;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 10px 10px 0 0;
+    }
+
+    .card.accent-teal::before { background: var(--accent-teal); }
+    .card.accent-amber::before { background: var(--accent-amber); }
+    .card.accent-rose::before { background: var(--accent-rose); }
+    .card.accent-green::before { background: var(--accent-green); }
+
+    .card-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: 11.5px;
+      font-style: italic;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .card-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 6px;
+      margin-bottom: 2px;
+    }
+
+    .card-text {
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #334155;
+    }
+
+    .card-list {
+      list-style: none;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: #334155;
+    }
+
+    .card-list li {
+      margin-bottom: 5px;
+      position: relative;
+      padding-left: 13px;
+    }
+
+    .card-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    .card-takeaway {
+      margin-top: auto;
+      font-size: 10.5px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--primary-dark);
+      border-top: 1px dashed var(--border);
+      padding-top: 6px;
+    }
+
+    .stage-summary-bar {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 11.5px;
+      color: var(--text-main);
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stage-summary-tag {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 9.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .table-container {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: var(--bg-slate);
+      color: #fff;
+      padding: 8px 12px;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    table.data-table td {
+      padding: 6.5px 12px;
+      border-bottom: 1px solid var(--border);
+      color: #334155;
+    }
+
+    table.data-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .badge-del { color: var(--accent-rose); font-weight: 600; }
+    .badge-keep { color: #059669; font-weight: 700; }
+    .badge-trans { color: var(--primary); font-weight: 700; }
+
+    .media-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .media-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .caption {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 5px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .callout {
+      background: #fef2f2;
+      border-left: 4px solid var(--accent-rose);
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 11.5px;
+      color: #991b1b;
+      margin-bottom: 10px;
+    }
+
+    .callout-success {
+      background: #ecfdf5;
+      border-left-color: var(--accent-green);
+      color: #065f46;
+    }
+
+    .callout-info {
+      background: #f0f9ff;
+      border-left-color: var(--primary);
+      color: #0369a1;
+    }
+
+    .title-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+    }
+
+    .title-pill {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .main-heading {
+      font-size: 34px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .sub-heading {
+      font-size: 16px;
+      color: #cbd5e1;
+      max-width: 900px;
+    }
+
+    .meta-cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .meta-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+
+    .meta-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .meta-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .meta-desc {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Speaker Notes Drawer */
+    #speakerNotesDrawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.98);
+      border-top: 2px solid #38bdf8;
+      color: #e2e8f0;
+      padding: 14px 28px;
+      font-size: 13px;
+      line-height: 1.6;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    #speakerNotesDrawer.open {
+      transform: translateY(0);
+    }
+
+    .notes-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding-bottom: 4px;
+    }
+
+    .notes-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #38bdf8;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notes-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .notes-close:hover {
+      color: #fff;
+    }
+
+    .notes-content {
+      font-size: 13px;
+      color: #f1f5f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Control Bar -->
+  <header class="control-bar">
+    <div class="brand-title">
+      <span class="brand-pill">MCA Mini Project</span>
+      <span>Urban Bike Sharing Demand Forecasting</span>
+    </div>
+    <div class="nav-controls">
+      <button class="btn" id="prevBtn" onclick="prevSlide()">◀ Prev</button>
+      <div class="slide-counter" id="slideIndicator">01 / 15</div>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextSlide()">Next ▶</button>
+      <button class="btn btn-notes" id="toggleNotesBtn" onclick="toggleNotes()">📝 Notes (N)</button>
+      <button class="btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="presentation-stage">
+    <div class="slide-viewport">
+
+      <!-- SLIDE 1: TITLE SLIDE -->
+      <section class="slide slide-dark active" id="slide-1" data-notes="Good morning respected guide Mr. Sibu Skaria, external examiners, and panel members. My name is Isabella Dennis, Roll Number 30, from the Department of Computer Applications. Today, I am presenting my MCA Mini Project on 'Urban Bike Sharing Demand Forecasting: Predicting Station-Level Hourly Bike Demand Using Machine Learning'. In this project, we address a critical logistical problem in modern smart cities: forecasting hourly bicycle departures at each docking station across a regional network using historical transaction data. Notice that our target is explicitly formulated as station-level hourly departure demand, which provides a direct and actionable metric for transit operators to maintain system balance.">
+        <div class="title-wrapper">
+          <div>
+            <div class="title-pill">MCA MINI PROJECT PRESENTATION</div>
+            <h1 class="main-heading">Urban Bike Sharing Demand Forecasting</h1>
+            <p class="sub-heading">Predicting Station-Level Hourly Bike Demand Using Machine Learning</p>
+          </div>
+
+          <div class="meta-cards-row">
+            <div class="meta-card" style="border-left: 4px solid var(--primary);">
+              <div class="meta-label">Student Details</div>
+              <div class="meta-name">Isabella Dennis</div>
+              <div class="meta-desc">Roll No: 30 &bull; Department of Computer Applications</div>
+            </div>
+            <div class="meta-card" style="border-left: 4px solid var(--accent-teal);">
+              <div class="meta-label">Project Guide</div>
+              <div class="meta-name">Mr. Sibu Skaria</div>
+              <div class="meta-desc">Assistant Professor &bull; Department of Computer Applications</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+                  <!-- SLIDE 2: PROBLEM STATEMENT & PROJECT OBJECTIVES (COMBINED SINGLE SLIDE) -->
+      <section class="slide" id="slide-2" data-notes="The main problem is that bike demand varies between different stations and different times of the day.
+During peak hours, some stations may run out of bikes, while other stations may become full.
+This creates shortage at some stations and surplus at others.
+However, Manual redistribution of bikes is slow, costly and time taken.
+Demand is influenced by factors such as time, station characteristics and weather.
+So, my project aims to forecast station-level demand and support efficient bike redistribution.
+
+The first objective is to forecast bike demand at the station level using machine learning.
+The second objective is to analyze demand patterns across time, stations and environmental conditions.
+I also use historical trip and weather information as predictors.
+Another objective is to identify possible shortage and surplus situations in advance.
+Finally, the system will support data-driven bike redistribution through an interactive application.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">The Challenge &amp; The Goals</div>
+            <h2 class="slide-title">Problem Statement &amp; Project Objectives</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 02 / 15</div>
+        </div>
+        <div class="slide-body" style="gap: 20px;">
+          <!-- Left Col: The Challenge -->
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 11px; font-weight: 800; color: #0e7490; text-transform: uppercase; letter-spacing: 0.5px;">The Challenge: Problem Statement</div>
+            
+            <!-- Station Imbalance Illustrated Card -->
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px;">
+              <div style="font-size: 11.5px; font-weight: 800; color: #0f172a; margin-bottom: 6px;">Station Imbalance, Illustrated</div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                <div style="flex: 1; background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 6px 8px; text-align: center;">
+                  <div style="font-size: 8.5px; font-weight: 700; color: #991b1b; text-transform: uppercase;">Station A</div>
+                  <div style="font-size: 18px; font-weight: 800; color: #dc2626; margin: 1px 0;">0 bikes</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #991b1b;">SHORTAGE</div>
+                  <div style="font-size: 8px; color: #7f1d1d;">Riders cannot start trips</div>
+                </div>
+                <div style="font-size: 18px; color: #d97706; font-weight: 800;">&rarr;</div>
+                <div style="flex: 1; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 6px 8px; text-align: center;">
+                  <div style="font-size: 8.5px; font-weight: 700; color: #166534; text-transform: uppercase;">Station B</div>
+                  <div style="font-size: 18px; font-weight: 800; color: #16a34a; margin: 1px 0;">FULL</div>
+                  <div style="font-size: 9px; font-weight: 700; color: #166534;">SURPLUS</div>
+                  <div style="font-size: 8px; color: #14532d;">Docks cannot accept returns</div>
+                </div>
+              </div>
+              <div style="font-size: 9px; color: #64748b; font-style: italic; margin-top: 6px; text-align: center;">
+                A forecasting system that anticipates station-level demand lets operators redistribute bikes proactively &mdash; before shortages or surpluses occur.
+              </div>
+            </div>
+
+            <!-- Numbered Challenge Items 1 to 5 exactly from image -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: #0e7490; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Uneven Demand</div>
+                  <div style="font-size: 9.5px; color: #64748b;">Bike-sharing demand varies sharply across stations and across the hours of the day.</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: #0e7490; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Shortages</div>
+                  <div style="font-size: 9.5px; color: #64748b;">Popular stations frequently run out of bikes during peak commute windows.</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: #0e7490; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Surpluses</div>
+                  <div style="font-size: 9.5px; color: #64748b;">Other stations fill up with returned bikes and cannot accept more.</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: #0e7490; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Manual Redistribution</div>
+                  <div style="font-size: 9.5px; color: #64748b;">Moving bikes between stations by hand is slow, costly and reactive.</div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <div style="width: 22px; height: 22px; border-radius: 50%; background: #0e7490; color: #fff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+                <div>
+                  <div style="font-size: 11px; font-weight: 700; color: #0f172a;">Multiple Drivers</div>
+                  <div style="font-size: 9.5px; color: #64748b;">Demand is shaped by temporal patterns, station characteristics and weather.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Col: The Goals (Project Objectives) exactly from image -->
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 11px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px;">Goals: Project Objectives</div>
+
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: #0f172a;">Forecast Demand</div>
+                <div style="font-size: 10.5px; color: #64748b;">Predict station-level bike-sharing demand using machine learning models.</div>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: #0f172a;">Analyze Patterns</div>
+                <div style="font-size: 10.5px; color: #64748b;">Study demand variation across time, stations and environmental conditions.</div>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: #0f172a;">Leverage Historical Data</div>
+                <div style="font-size: 10.5px; color: #64748b;">Use historical trip and weather information as predictors.</div>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: #0f172a;">Flag Imbalances</div>
+                <div style="font-size: 10.5px; color: #64748b;">Identify potential shortage and surplus situations before they occur.</div>
+              </div>
+            </div>
+
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; gap: 12px;">
+              <div style="width: 30px; height: 30px; border-radius: 50%; background: #1e293b; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</div>
+              <div>
+                <div style="font-size: 12px; font-weight: 700; color: #0f172a;">Support Redistribution</div>
+                <div style="font-size: 10.5px; color: #64748b;">Enable smarter, data-driven bike redistribution through an interactive app.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 11px; color: #94a3b8;">
+          <div>SmartBike AI &bull; MCA Mini Project</div>
+          <div>Mar Athanasius College of Engineering, Kothamangalam</div>
+          <div>Slide 2 of 15</div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: LITERATURE REVIEW (PRESERVED AS DEDICATED SLIDE) -->
+      <section class="slide" id="slide-3" data-notes="In our literature review on Slide 3, we examine three recent academic benchmarks that guide our methodology:
+• Aydın et al. (2023) compared gradient boosting algorithms across two cities and proved that CatBoost and Gradient Boosting excel at capturing non-linear hourly demand curves.
+• Karunanithi et al. (2024) compared multiple machine learning models and demonstrated that Random Forest and tree ensembles significantly outperform neural networks on structured tabular time features.
+• Yao et al. (2024) studied network dynamics and spatial interactions on this exact SF Bay Area dataset.
+• Research Gap: Prior studies often omit full zero-demand continuous grid expansion and rigorous chronological leakage audits, which our work directly addresses.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Related Works</div>
+            <h2 class="slide-title">Literature Review &amp; Research Gap</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 03 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-badge">PAPER 1 &bull; AYDIN ET AL. (2023)</div>
+              <div class="card-title">Gradient Boosting Methods</div>
+              <div class="card-subtitle">Konya &amp; Washington D.C. Studies</div>
+              <ul class="card-list" style="font-size: 11px; line-height: 1.5;">
+                <li><strong>Core Objective:</strong> Predict hourly bike demand using weather and calendar features to balance bike fleets across docking stations.</li>
+                <li><strong>Algorithms Tested:</strong> CatBoost, XGBoost, LightGBM, and baseline regressors.</li>
+                <li><strong>Key Finding:</strong> CatBoost and Gradient Boosting achieved superior performance in modeling complex commuter curves.</li>
+              </ul>
+              <div class="card-takeaway">Validates our selection of CatBoost and XGBoost for hourly forecasting.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">PAPER 2 &bull; KARUNANITHI ET AL. (2024)</div>
+              <div class="card-title">Predictive Analytics Approach</div>
+              <div class="card-subtitle">Model Comparison for Demand Forecasting</div>
+              <ul class="card-list" style="font-size: 11px; line-height: 1.5;">
+                <li><strong>Core Objective:</strong> Compare multiple machine learning models to forecast hourly rental demand and prevent dock starvation or overflow.</li>
+                <li><strong>Algorithms Tested:</strong> Random Forest, Gradient Boosting, Decision Tree, MLP.</li>
+                <li><strong>Key Finding:</strong> Random Forest and ensemble trees significantly outperformed neural networks on structured tabular time features.</li>
+              </ul>
+              <div class="card-takeaway">Validates using Random Forest as a strong ensemble baseline.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">PAPER 3 &bull; YAO ET AL. (2024)</div>
+              <div class="card-title">Network &amp; Spatial Dynamics</div>
+              <div class="card-subtitle">SF Bay Area Bike Share Benchmark</div>
+              <ul class="card-list" style="font-size: 11px; line-height: 1.5;">
+                <li><strong>Core Objective:</strong> Analyze station-level trip generation and spatial-temporal dependencies across the San Francisco network.</li>
+                <li><strong>Algorithms Tested:</strong> Spatial-temporal regression and tree models.</li>
+                <li><strong>Research Gap Addressed:</strong> Most studies omit continuous zero-demand grid expansion and do not audit temporal feature leakage, which our project rigorously enforces.</li>
+              </ul>
+              <div class="card-takeaway">Confirms our dataset choice and highlights our leakage-free methodology.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: ABOUT THE DATASET (STAGE 1) -->
+      <section class="slide" id="slide-4" data-notes="Slide 3 introduces Stage 1 of our pipeline: Raw Data Collection.  • Dataset Overview: We use the real-world San Francisco Bay Area Bike Share dataset from Kaggle, specifically trip.csv. • Key Specifications: It records 669,959 raw trip transactions spanning August 29, 2013 to August 31, 2015. That represents 733 days, or two full years, covering 17,583 continuous hourly timestamps across 70 unique docking stations. • Why Hourly Departures as Target?: Trip durations in raw data have extreme outliers ranging from 60 seconds to over 200 days due to unreturned bikes. Meanwhile, trip.csv only logs departure events, not live dock occupancy. Formulating the target as hourly departures provides a clean, stable, and operationally actionable metric. • Visuals: Figure 3.1 on the right shows the dataset shape (669,959 rows by 12 columns) and data types. Figure 3.3 displays the first 10 raw ride receipts. • Stage 1 Summary: We begin with 669,959 raw checkout records and 12 columns.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Dataset Information
+              <span class="chip-stage">Stage 1: Raw Data Collection</span>
+            </div>
+            <h2 class="slide-title">About the Dataset (669,959 Raw Records)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 04 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="col-left">
+            <div class="card">
+              <div class="card-badge">RAW DATASET SPECIFICATIONS</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.55;">
+                <li><strong>Dataset Source:</strong> SF Bay Area Bike Share Dataset (<code>trip.csv</code>).</li>
+                <li><strong>Total Raw Records:</strong> <strong>669,959</strong> individual trip checkout transactions.</li>
+                <li><strong>Total Raw Columns:</strong> <strong>12 columns</strong> (receipt IDs, timestamps, dock numbers, user type).</li>
+                <li><strong>Time Span:</strong> August 29, 2013 to August 31, 2015 (733 days / ~2 full years).</li>
+                <li><strong>Hourly Timeline:</strong> 17,583 total hourly intervals across the 2-year duration.</li>
+                <li><strong>Active Stations:</strong> 70 unique docking stations across the Bay Area network.</li>
+                <li><strong>Target Variable:</strong> Hourly demand = number of bike trips starting from a station during an hour.</li>
+                <li><strong>Why Hourly Departures?:</strong> Trip durations range from 60 seconds to several months due to lost bikes. Predicting hourly departures is clean, stable, and directly actionable for dock managers.</li>
+              </ul>
+              <div class="stage-summary-bar">
+                <span class="stage-summary-tag">Stage 1 Status</span>
+                <span><strong>669,959 Rows</strong> &bull; <strong>12 Columns</strong> &bull; Raw unaggregated ride logs.</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/fig_3_1_shape_dtypes.png" alt="Dataset Shape & Dtypes" />
+              <div class="caption">Dataset Shape (669,959, 12) & Column Data Types</div>
+            </div>
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/fig_3_3_first_10_records.png" alt="First 10 Records" />
+              <div class="caption">First 10 Raw Trip Departure Logs</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: EDA - QUALITY & BEHAVIORAL TRENDS -->
+      <section class="slide" id="slide-5" data-notes="Slide 4 presents our Exploratory Data Analysis, examining data quality and rider behavior patterns.  • Data Quality Audit (Top Card): The raw data is remarkably high quality. Only 6,619 records had missing values in zip_code (~0.98%), which is an optional personal field. All other 11 columns have zero missing values. Duplicate check revealed exactly zero duplicates across all 669k records. User breakdown shows that 84% of riders are Annual Subscribers (daily office commuters) and 16% are Casual Customers (tourists).  • Rider Behavior Patterns (Bottom Card): On weekdays, demand displays a sharp twin commuter rush hour peak at 8:00 AM and 5:00 PM. On weekends, the commuter spikes vanish completely, replaced by a gentle recreational midday curve between 12:00 PM and 3:00 PM. Station demand varies drastically: SF Caltrain recorded over 49,000 trips, while quiet suburban stations had fewer than 1,000 trips over two years. • Visuals: The top graph shows the twin-peak weekday commute curve vs the weekend curve. The bottom graph confirms higher total demand on workdays. • Key Insight: Demand fluctuates heavily by hour, day of week, and station, proving the necessity of automated machine learning forecasts.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Data Insights</div>
+            <h2 class="slide-title">Exploratory Data Analysis (EDA)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 05 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="col-left">
+            <div class="card">
+              <div class="card-badge">DATA QUALITY AUDIT (669,959 TRIPS)</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.5;">
+                <li><strong>Missing Values:</strong> Only 6,619 in <code>zip_code</code> (~0.98%), an optional input field. All other 11 columns have 0 missing values.</li>
+                <li><strong>Duplicate Rows:</strong> Exactly 0 duplicate rows detected in the entire dataset.</li>
+                <li><strong>Active Stations:</strong> 70 unique docking stations across the region.</li>
+                <li><strong>User Categories:</strong> ~84% Annual Subscribers (daily office commuters) and ~16% Casual Customers (tourists/leisure).</li>
+              </ul>
+            </div>
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">RIDER BEHAVIOR PATTERNS</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.5;">
+                <li><strong>Weekdays (Mon–Fri):</strong> Two sharp commuter rush hour peaks &mdash; Morning (8:00 AM) and Evening (5:00 PM).</li>
+                <li><strong>Weekends (Sat–Sun):</strong> Rush hour peaks vanish completely. Demand forms a gentle recreational curve peaking between 12:00 PM and 3:00 PM.</li>
+                <li><strong>Station Volumes:</strong> SF Caltrain (Townsend at 4th) recorded the highest demand with ~49,000+ trip departures, while quiet suburban stations had under 1,000 trips.</li>
+                <li><strong>Practical Insight:</strong> Demand changes significantly between stations and across different hours, showing the need for demand forecasting.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/hourly_demand.png" alt="Hourly Demand Curve" />
+              <div class="caption">Hourly Demand: Weekday Commuter Rush vs Weekend Midday Curve</div>
+            </div>
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/weekday_demand.png" alt="Weekday Demand Breakdown" />
+              <div class="caption">Weekday vs Weekend Demand Patterns</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: PREPROCESSING (STAGE 2) -->
+      <section class="slide" id="slide-6" data-notes="Slide 5 describes Stage 2: Data Preprocessing and Solving the Zero-Demand Problem.  • Step 1 - Hourly Rounding: Exact ride timestamps contain arbitrary minutes and seconds. We floor every start datetime down to the beginning of the hour (e.g., 2013-08-29 09:08:24 becomes 2013-08-29 09:00:00). This groups all rides within each 60-minute window. • Step 2 - The Zero-Demand Problem: In raw logs, if nobody rents a bike at Station 12 at 3:00 AM, no row is recorded. If we only train on rows where rides occurred, the model never learns when demand is zero and will severely over-predict nighttime demand. • Step 3 - Grid Expansion: To fix this, we generate a complete Cartesian product of 70 stations multiplied by 17,583 hours = exactly 1,230,810 station-hour records. For active hours, we record actual trip counts; for quiet hours, we explicitly assign demand = 0. • Step 4 - Event Calendar: We extracted city holidays and festivals from trip.csv into a lookup table so that every newly created station-hour row inherits its holiday status (e.g., Thanksgiving, Christmas). • Stage 2 Summary: Row count expanded from 669,959 trips into 1,230,810 station-hour records across 3 base features: station_id, hour_timestamp, and demand.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Data Preparation
+              <span class="chip-stage">Stage 2: Grid Expansion (1,230,810 Rows)</span>
+            </div>
+            <h2 class="slide-title">Data Preprocessing: Solving the Zero-Demand Problem</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 06 / 15</div>
+        </div>
+        <div class="slide-body" style="flex-direction: column;">
+          <div class="grid-4" style="flex: 1;">
+            <div class="card">
+              <div class="card-badge">STEP 1: HOURLY ROUNDING</div>
+              <div class="card-title">Rounding Datetime to Hour</div>
+              <div class="card-label">What is it?</div>
+              <p class="card-text" style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; background: #f8fafc; padding: 4px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 4px;">
+                2013-08-29 09:08:24 &rarr; 2013-08-29 09:00:00<br>
+                2013-08-29 09:35:10 &rarr; 2013-08-29 09:00:00
+              </p>
+              <div class="card-label">Why do we use it?</div>
+              <p class="card-text">Trip timestamps have arbitrary seconds. Rounding groups all trips that started in that specific hour.</p>
+              <div class="card-takeaway">Standardizes time to discrete 1-hour slots.</div>
+            </div>
+
+            <div class="card accent-rose">
+              <div class="card-badge" style="color: var(--accent-rose);">STEP 2: THE PROBLEM</div>
+              <div class="card-title">The Zero-Demand Problem</div>
+              <div class="card-label">What is the problem?</div>
+              <p class="card-text">In raw ride logs, if nobody rents a bike at Station #12 at 3:00 AM, <strong>no row is recorded</strong>.</p>
+              <div class="card-label">Why is this dangerous?</div>
+              <p class="card-text">If we only train on hours with rides, the model never learns when demand is 0! It would severely over-predict nighttime demand.</p>
+              <div class="card-takeaway">Unrecorded quiet hours must be modeled.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">STEP 3: COMPLETE TIMELINE</div>
+              <div class="card-title">Grid Expansion (70 &times; 17,583)</div>
+              <div class="card-label">Why multiply 70 &times; 17,583?</div>
+              <p class="card-text">Stations exist even when 0 rides happen. To teach the model when demand is 0, we create a record for EVERY station at EVERY hour across 2 years:<br>
+              <strong>70 stations &times; 17,583 hours = 1,230,810 records</strong>.</p>
+              <div class="card-label">Zero-Filling:</div>
+              <p class="card-text">Active hours get actual trip count; quiet hours get demand = 0.</p>
+              <div class="card-takeaway">Ensures continuous 24/7 citywide timeline.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">STEP 4: EVENT CALENDAR</div>
+              <div class="card-title">Adding Special Events</div>
+              <div class="card-label">What is it?</div>
+              <p class="card-text">Extracted city event and holiday dates from trip.csv into a calendar lookup dictionary.</p>
+              <div class="card-label">Why do we use it?</div>
+              <p class="card-text">Every newly added 0-demand station-hour row correctly inherits its holiday label (e.g. Halloween, Christmas).</p>
+              <div class="card-takeaway">Prevents missing calendar event metadata.</div>
+            </div>
+          </div>
+
+          <div class="stage-summary-bar">
+            <span class="stage-summary-tag">Stage 2 Summary</span>
+            <span><strong>Expanded 669,959 trips &rarr; 1,230,810 station-hour records</strong> (70 stations &times; 17,583 hours). <strong>Features: 3 base columns</strong> (<code>station_id</code>, <code>hour_timestamp</code>, <code>demand</code>). Quiet hours now correctly have demand = 0.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: RAW DATASET COLUMN SELECTION (STAGE 3) -->
+      <section class="slide" id="slide-7" data-notes="Slide 6 details Stage 3: Raw Dataset Column Selection, auditing why each of the 12 raw columns was kept, transformed, or removed.  • id: Removed, as it is simply an individual ride transaction receipt with no predictive power. • duration: Removed, because it is future leakage—we only know duration after a trip finishes, which is unknown when predicting upcoming departures! • start_date: Transformed, by flooring it to the hour to group rides into hourly departure buckets. • start_station_name &amp; start_station_id: Kept, as station identifiers. • end_date, end_station_name, end_station_id: Removed, because destination is unknown when predicting departures at the start of an hour. Including them would introduce future target leakage. • bike_id: Removed, because individual bike serial numbers do not affect aggregate station-level demand. • subscription_type &amp; zip_code: Removed, as they are individual rider attributes rather than station totals, and zip code has missing values. • special_event: Kept, to identify holidays. • Stage 3 Summary: Across all 1,230,810 rows, the 12 raw columns are filtered down to core station/time base identifiers.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Data Preprocessing
+              <span class="chip-stage">Stage 3: Column Selection (12 Raw Columns Filtered)</span>
+            </div>
+            <h2 class="slide-title">Raw Dataset Columns (Why Kept or Removed)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 07 / 15</div>
+        </div>
+        <div class="slide-body" style="flex-direction: column;">
+          <div class="table-container" style="flex: 1;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Column Name</th>
+                  <th style="width: 12%;">Data Type</th>
+                  <th style="width: 22%;">Meaning</th>
+                  <th style="width: 16%;">Example Value</th>
+                  <th style="width: 35%;">Decision & Simple Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><code>id</code></td><td>Integer</td><td>Unique trip receipt number</td><td>4576</td><td><span class="badge-del">Removed:</span> Just a receipt number for one ride</td></tr>
+                <tr><td><code>duration</code></td><td>Integer</td><td>Trip duration in seconds</td><td>63</td><td><span class="badge-del">Removed:</span> Future info (we only know duration after ride ends)</td></tr>
+                <tr><td><code>start_date</code></td><td>Object (String)</td><td>Time when bike unlocked</td><td>8/29/2013 09:08</td><td><span class="badge-trans">Transformed:</span> Floored to hour_timestamp to group trips</td></tr>
+                <tr><td><code>start_station_name</code></td><td>Object (String)</td><td>Origin station name</td><td>San Jose City Hall</td><td><span class="badge-keep">Kept:</span> Station name for display and reports</td></tr>
+                <tr><td><code>start_station_id</code></td><td>Integer</td><td>Origin station number</td><td>10</td><td><span class="badge-keep">Kept:</span> Target station ID to predict demand for</td></tr>
+                <tr><td><code>end_date</code></td><td>Object (String)</td><td>Time when bike returned</td><td>8/29/2013 09:09</td><td><span class="badge-del">Removed:</span> Future info (unknown before ride happens)</td></tr>
+                <tr><td><code>end_station_name</code></td><td>Object (String)</td><td>Destination station name</td><td>San Jose City Hall</td><td><span class="badge-del">Removed:</span> Future info (destination is unknown at start)</td></tr>
+                <tr><td><code>end_station_id</code></td><td>Integer</td><td>Destination station number</td><td>10</td><td><span class="badge-del">Removed:</span> Destination is unknown when predicting departures</td></tr>
+                <tr><td><code>bike_id</code></td><td>Integer</td><td>Bicycle serial number</td><td>520</td><td><span class="badge-del">Removed:</span> Individual bike ID is not needed for station-level demand prediction</td></tr>
+                <tr><td><code>subscription_type</code></td><td>Object (String)</td><td>Subscriber or Customer</td><td>Subscriber</td><td><span class="badge-del">Removed:</span> Belongs to individual rider, not hourly station total</td></tr>
+                <tr><td><code>zip_code</code></td><td>Object (String)</td><td>Rider postal code</td><td>94127 (6,619 missing)</td><td><span class="badge-del">Removed:</span> Has missing values and is personal to rider</td></tr>
+                <tr><td><code>special_event</code></td><td>Object (String)</td><td>Holiday or event flag</td><td>No Event, Halloween</td><td><span class="badge-keep">Kept:</span> Tells if the day is a holiday across the city</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="stage-summary-bar">
+            <span class="stage-summary-tag">Stage 3 Summary</span>
+            <span><strong>1,230,810 station-hour rows</strong>. 12 raw columns filtered down to core station/time base format. Individual trip IDs removed; future leakage columns excluded.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: FEATURE ENGINEERING (STAGE 4) -->
+      <section class="slide" id="slide-8" data-notes="Slide 7 covers Stage 4: Feature Engineering, where we extract 62 candidate features across 1,230,810 rows. Consider an illustrative scenario: predicting demand for Tuesday, Oct 15, 2013 at 8:00 AM at Station #2 (San Jose Train Station).  • Card 1 - Calendar &amp; Flags (14 features): Captures hour (8), weekday (Tuesday), is_weekend (0), and morning_peak (1). This informs the model that a busy Tuesday morning rush is occurring. • Card 2 - Cyclical Sine/Cosine (8 features): Solves the clock gap problem. In linear numbers, 11 PM (23) and 12 AM (0) are 23 units apart, but in reality they are 1 hour apart! Sine and cosine place 24 hours on a continuous 360-degree circle so time flows seamlessly without artificial boundary jumps. • Card 3 - Temporal Interactions (4 features): weekday_hour (1 × 8 = 8) gives heavy weight to workday rush hours, while weekend_hour (0 × 8 = 0) isolates Sunday morning traffic. • Card 4 - Past Demand Lags (13 features): lag_1h captures immediate 1-hour momentum (12 trips at 7 AM). lag_24h captures demand yesterday at 8 AM (14 trips). lag_168h captures demand last Tuesday at 8 AM (15 trips). Past demand provides strong baseline anchors. • Card 5 - Rolling Window Statistics (15 features): rolling_mean_3h (5.7 trips/hr) filters single-hour spikes. rolling_mean_24h (2.1 trips/hr) provides a daily baseline. lag_1h_ratio_24h (5.71) indicates the station is running much hotter than normal. • Stage 4 Summary: 1,230,810 rows by 62 candidate features generated.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Creating Model Inputs
+              <span class="chip-stage">Stage 4: Feature Extraction (1,230,810 Rows, 62 Features)</span>
+            </div>
+            <h2 class="slide-title">Feature Engineering (62 Candidate Features)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 08 / 15</div>
+        </div>
+        <div class="slide-body" style="flex-direction: column;">
+          <div class="callout callout-info" style="margin-bottom: 10px;">
+            <strong>Illustrative Scenario (Example Context &mdash; not actual output):</strong> Predict demand for Tuesday, Oct 15, 2013 at 8:00 AM at Station #2 (San Jose Train Station). Below are the 5 feature families:
+          </div>
+          <div class="grid-5" style="flex: 1;">
+            <div class="card">
+              <div class="card-badge">1. CALENDAR & FLAGS (14)</div>
+              <ul class="card-list" style="font-size: 11px;">
+                <li><strong>hour (0–23):</strong> Direct hour of day; captures commute spikes.</li>
+                <li><strong>weekday (0–6):</strong> Separates Mon–Fri workdays from weekend leisure.</li>
+                <li><strong>morning_peak (1):</strong> Flags 7:00–9:00 AM morning rush departures.</li>
+                <li><strong>is_weekend (0/1):</strong> Binary flag isolating Saturday & Sunday behavior.</li>
+              </ul>
+              <div class="card-takeaway">Captures daily commuter routines & peak hours.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">2. CYCLICAL SINE/COS (8)</div>
+              <ul class="card-list" style="font-size: 11px;">
+                <li><strong>The Clock Gap:</strong> 23:00 and 00:00 are 1h apart, but numbers jump by 23!</li>
+                <li><strong>hour_sin & cos:</strong> Maps 24h onto a continuous 360° circular face.</li>
+                <li><strong>weekday_sin & cos:</strong> Connects Sunday smoothly back to Monday.</li>
+                <li><strong>month_sin & cos:</strong> Connects December into January for seasons.</li>
+              </ul>
+              <div class="card-takeaway">Preserves seamless continuous time without jumps.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">3. INTERACTIONS (4)</div>
+              <ul class="card-list" style="font-size: 11px;">
+                <li><strong>weekday_hour:</strong> is_weekday &times; hour: gives weight to workday rush hours.</li>
+                <li><strong>weekend_hour:</strong> is_weekend &times; hour: captures weekend midday curves.</li>
+                <li><strong>month_hour:</strong> month &times; hour: adapts rush hour intensity by season.</li>
+                <li><strong>peak_station:</strong> Flags rush hours specifically at transit hubs.</li>
+              </ul>
+              <div class="card-takeaway">Separates busy Tuesday 8 AM from calm Sunday 8 AM.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-badge">4. PAST DEMAND LAGS (13)</div>
+              <ul class="card-list" style="font-size: 11px;">
+                <li><strong>lag_1h (12 trips):</strong> Departures in previous 1h (immediate momentum).</li>
+                <li><strong>lag_2h (4 trips):</strong> Departures 2 hours ago (momentum direction).</li>
+                <li><strong>lag_24h (14 trips):</strong> Departures yesterday at same hour (daily baseline).</li>
+                <li><strong>lag_168h (15 trips):</strong> Departures same hour last week (weekly baseline).</li>
+              </ul>
+              <div class="card-takeaway">Uses recent & recurring past trips as direct anchors.</div>
+            </div>
+
+            <div class="card accent-rose">
+              <div class="card-badge" style="color: var(--accent-rose);">5. ROLLING AVERAGES (15)</div>
+              <ul class="card-list" style="font-size: 11px;">
+                <li><strong>rolling_mean_3h (5.7):</strong> Moving average over past 3h; filters spikes.</li>
+                <li><strong>rolling_mean_24h (2.1):</strong> Past full day's average hourly trip rate.</li>
+                <li><strong>rolling_max_24h (16):</strong> Maximum single-hour surge recorded in last 24h.</li>
+                <li><strong>lag_1h_ratio_24h (5.71):</strong> Surge ratio: station running hotter than normal.</li>
+              </ul>
+              <div class="card-takeaway">Detects sudden real-time spikes above daily baseline.</div>
+            </div>
+          </div>
+          <div class="stage-summary-bar">
+            <span class="stage-summary-tag">Stage 4 Summary</span>
+            <span><strong>1,230,810 rows &times; 62 Candidate Features</strong> extracted across 5 feature families.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: FINAL FEATURE AUDIT (STAGE 5) -->
+      <section class="slide" id="slide-9" data-notes="Slide 8 presents Stage 5: our Feature Leakage Audit. Data leakage happens when a feature accidentally uses information that would not be available in real life at prediction time. If uncorrected, the model achieves artificial 99% accuracy in training but fails completely in deployment.  We audited all 62 features and removed 8 non-causal features: • 1. Removed 3 Demand Deltas: Features like demand_change_1h used the formula (current_demand - lag_1h). But when predicting at 8:00 AM, current demand is the target answer we are trying to predict! Using it was cheating. • 2. Removed 5 Global Averages: Features like historical_mean averaged demand over the entire two-year dataset (2013 to 2015). That meant 2013 records were using future numbers from 2015! • Strict Lags Verified: We confirmed that lag_1h, lag_24h, and lag_168h look strictly backwards in time. • Stage 5 Summary: 62 candidate features minus 8 removed equals 54 final features. All 54 features strictly use information available prior to the prediction timestamp.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Data Leakage Check
+              <span class="chip-stage">Stage 5: Leakage Audit (62 &rarr; 54 Features)</span>
+            </div>
+            <h2 class="slide-title">Feature Audit: Removing Future Information</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 09 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="col-left">
+            <div class="card" style="height: 100%;">
+              <div class="card-badge">WHAT IS DATA LEAKAGE?</div>
+              <p class="card-text">Data leakage happens when a feature accidentally uses information that would not be available in real life at prediction time.</p>
+              <div class="card-label" style="margin-top: 10px;">Why Did We Remove 8 Features?</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.55;">
+                <li><strong>1. Removed 3 Demand Deltas:</strong> Features like <code>demand_change_1h</code> used <code>(current_demand - lag)</code>. But when making a prediction at 8:00 AM, we do not yet know the demand between 8:00 AM and 9:00 AM!</li>
+                <li><strong>2. Removed 5 Global Averages:</strong> Features like <code>historical_mean</code> averaged the entire 2-year dataset. That meant 2013 rows were using future numbers from 2015!</li>
+              </ul>
+              <div class="callout callout-success" style="margin-top: auto; margin-bottom: 0;">
+                <strong>Audit Result:</strong> 62 features &minus; 8 removed = <strong>54 final causal features</strong>. All 54 features strictly use information available prior to the prediction timestamp.
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="table-container" style="flex: 1;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Audited Feature Group</th>
+                    <th>Why It Leaked Information</th>
+                    <th>Real-Life Truth</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>3 Demand Deltas</strong><br><code>demand_change_1h</code>, etc.</td>
+                    <td>Used current hour's target answer in formula</td>
+                    <td>At 8:00 AM, you cannot know demand between 8:00 AM & 9:00 AM!</td>
+                  </tr>
+                  <tr>
+                    <td><strong>5 Global Averages</strong><br><code>historical_mean</code>, etc.</td>
+                    <td>Used future 2015 data to calculate averages for 2013 rows</td>
+                    <td>In 2013, you cannot see data from 2015!</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Strict Lags Checked</strong><br><code>lag_1h</code>, <code>24h</code>, <code>168h</code></td>
+                    <td>Verified lags only look strictly backward (t-1, t-24, t-168)</td>
+                    <td>Completely valid because past records already occurred.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="stage-summary-bar">
+              <span class="stage-summary-tag">Stage 5 Summary</span>
+              <span><strong>1,230,810 rows &times; 54 Final Features</strong>. 100% strictly relying on past observations.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: CHRONOLOGICAL SPLIT (STAGE 6) -->
+      <section class="slide" id="slide-10" data-notes="Slide 9 explains Stage 6: our Chronological Data Partitioning strategy.  • Why No Random Shuffling?: In standard tabular machine learning, random train_test_split is common. In time-series forecasting, this is strictly forbidden! Random shuffling allows the model to use Wednesday to predict Tuesday, or June to predict May. It memorizes future answers to predict the past.  • Strict Chronological Splits: 1. Training Set (70%): 861,560 rows from Aug 29, 2013 to Jan 24, 2015. The model learns baseline traffic, rush hour dynamics, and station profiles across 17 full months. 2. Validation Set (15%): 184,590 rows from Jan 24, 2015 to May 14, 2015. Used exclusively to tune hyperparameters like tree depth and learning rate without ever touching the test set. 3. Test Set (15%): 184,660 rows from May 14, 2015 to Aug 31, 2015. Kept strictly locked until final evaluation to test true real-world generalization on unseen future months. • Stage 6 Summary: 54 causal features evaluated across Train (861k), Validation (184k), and Test (184k) rows.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">
+              Train / Validation / Test
+              <span class="chip-stage">Stage 6: Chronological Partition</span>
+            </div>
+            <h2 class="slide-title">Splitting Data by Time (70% / 15% / 15%)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 10 / 15</div>
+        </div>
+        <div class="slide-body" style="flex-direction: column;">
+          <div class="callout" style="margin-bottom: 12px;">
+            <strong>Why We Do NOT Use Random Shuffling in Time Series:</strong> If you randomly shuffle time data, the model uses Wednesday to predict Tuesday, or June to predict May! It memorizes future answers to predict the past. We must split strictly chronologically by date.
+          </div>
+          <div class="grid-3" style="flex: 1;">
+            <div class="card">
+              <div class="card-badge">TRAIN SET (70%)</div>
+              <div class="card-title" style="font-size: 17px; margin-bottom: 2px;">861,560 Rows &times; 54 Features</div>
+              <div class="card-subtitle">Aug 29, 2013 to Jan 24, 2015</div>
+              <div class="card-label">What this set does:</div>
+              <p class="card-text">The model learns baseline demand, rush hour patterns, and station behavior across 17 full months.</p>
+              <div class="card-takeaway">Primary knowledge base for algorithm learning.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">VALIDATION SET (15%)</div>
+              <div class="card-title" style="font-size: 17px; margin-bottom: 2px;">184,590 Rows &times; 54 Features</div>
+              <div class="card-subtitle">Jan 24, 2015 to May 14, 2015</div>
+              <div class="card-label">What this set does:</div>
+              <p class="card-text">Used to tune hyperparameters (tree depth, learning rate, number of estimators) without ever touching the test set.</p>
+              <div class="card-takeaway">Prevents overfitting during tuning phase.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">TEST SET (15%)</div>
+              <div class="card-title" style="font-size: 17px; margin-bottom: 2px;">184,660 Rows &times; 54 Features</div>
+              <div class="card-subtitle">May 14, 2015 to Aug 31, 2015</div>
+              <div class="card-label">What this set does:</div>
+              <p class="card-text">Kept strictly locked until final evaluation. Proves how well models generalize to completely unseen future months.</p>
+              <div class="card-takeaway">Definitive real-world benchmark performance.</div>
+            </div>
+          </div>
+          <div class="stage-summary-bar">
+            <span class="stage-summary-tag">Stage 6 Summary</span>
+            <span><strong>54 causal features</strong> across <strong>Train (861,560)</strong>, <strong>Val (184,590)</strong>, and <strong>Test (184,660)</strong> rows (Total: 1,230,810 rows).</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: MODEL SELECTION - HOW EACH MODEL WORKS -->
+      <section class="slide" id="slide-11" data-notes="Slide 10 details our Model Selection: how each of the three tree-based algorithms works.  • Model 1 - Random Forest (Bagging): Random Forest builds hundreds of decision trees simultaneously in parallel. Each tree votes independently, and we take their average. For example, if Tree 1 predicts 14 trips, Tree 2 predicts 16, and Tree 3 predicts 15, the average prediction is 15 trips. Averaging independent trees reduces variance and handles noisy data well.  • Model 2 - XGBoost (Gradient Boosting): XGBoost builds decision trees sequentially in a line, where each new tree directly predicts and corrects the previous tree's residual error. For example, if actual demand is 15 and Tree 1 predicts 11, the residual error is +4. Tree 2 is trained specifically to predict that +4 mistake! Repeating this over 600 trees makes it exceptionally powerful at learning sharp commuter rush spikes.  • Model 3 - CatBoost (Ordered Boosting): CatBoost is also a sequential boosting algorithm. It uses ordered boosting to prevent target leakage during tree building. It provides an independent boosting benchmark and offers extremely fast prediction speeds during real-world inference.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Algorithms Used</div>
+            <h2 class="slide-title">Model Selection: How Each Model Works</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 11 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-badge">MODEL 1: RANDOM FOREST</div>
+              <div class="card-title">Random Forest (Bagging)</div>
+              <div class="card-label">How does it work?</div>
+              <p class="card-text">Builds many decision trees at the same time in parallel. Takes the average prediction across all trees.</p>
+              <div class="card-label">Simple Example:</div>
+              <p class="card-text" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #f8fafc; padding: 5px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                Tree 1: 14 &bull; Tree 2: 16 &bull; Tree 3: 15<br>
+                Average = (14 + 16 + 15) / 3 = <strong>15 trips</strong>
+              </p>
+              <div class="card-label">Why we use it?</div>
+              <p class="card-text">Averaging many independent trees reduces errors and handles noisy data well.</p>
+              <div class="card-takeaway">Robust, parallel ensemble baseline.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">MODEL 2: XGBOOST</div>
+              <div class="card-title">XGBoost (Gradient Boosting)</div>
+              <div class="card-label">How does it work?</div>
+              <p class="card-text">Builds trees one after another in a line. Each new tree directly corrects the previous tree's residual mistake.</p>
+              <div class="card-label">Simple Example:</div>
+              <p class="card-text" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; background: #f8fafc; padding: 5px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                Target = 15. Tree 1 predicts 11 (error: +4).<br>
+                Tree 2 predicts the +4 error directly!
+              </p>
+              <div class="card-label">Why we use it?</div>
+              <p class="card-text">Very strong at learning difficult non-linear patterns like morning and evening rush hour spikes.</p>
+              <div class="card-takeaway">Fast, high-precision sequential learner.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">MODEL 3: CATBOOST</div>
+              <div class="card-title">CatBoost (Ordered Boosting)</div>
+              <div class="card-label">How does it work?</div>
+              <p class="card-text">Builds trees sequentially like XGBoost. Uses ordered boosting to improve how the model learns from sequential data.</p>
+              <div class="card-label">Why we use it?</div>
+              <p class="card-text">Provides a state-of-the-art boosting benchmark and offers extremely fast prediction speeds during real-world inference.</p>
+              <div class="card-takeaway">Competitive accuracy with rapid inference speed.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: MODEL RESULTS (RF FIRST, XGBOOST, CATBOOST - NO OVERALL CARD) -->
+      <section class="slide" id="slide-12" data-notes="Slide 11 presents our final Model Results evaluated on 184,660 completely unseen test rows.  • Performance Table: - Random Forest: Test MAE = 0.439206 | RMSE = 0.908465 | R² = 0.731390 - XGBoost: Test MAE = 0.430550 | RMSE = 0.898213 | R² = 0.737418 - CatBoost: Test MAE = 0.436126 | RMSE = 0.897665 | R² = 0.737738  • Detailed Analysis by Card: 1. Random Forest: Delivers solid baseline performance, explaining about 73.1% of demand variation. It confirms that bagging decision trees creates a reliable, stable baseline on tabular time features. 2. XGBoost: Achieved the lowest MAE (0.430550) among all three models. This means it has the lowest average absolute error on hourly trip predictions. 3. CatBoost: Achieved the lowest RMSE (0.897665) and highest R² (0.737738). Lower RMSE means better performance when penalizing large surge mistakes. • Metric Interpretation: MAE of ~0.43 means our forecast is off by less than half a bike per station-hour on average. R² of ~0.74 means the models explain nearly 74% of the total variation in demand on unseen future data.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Performance Comparison</div>
+            <h2 class="slide-title">Model Results on Test Set (184,660 Rows)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 12 / 15</div>
+        </div>
+        <div class="slide-body" style="flex-direction: column;">
+          <div class="table-container" style="flex: 0.75; min-height: 155px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Features</th>
+                  <th>Test MAE</th>
+                  <th>Test RMSE</th>
+                  <th>Test R²</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Random Forest</strong></td>
+                  <td>54</td>
+                  <td>0.439206</td>
+                  <td>0.908465</td>
+                  <td>0.731390</td>
+                </tr>
+                <tr style="background: #f0f9ff;">
+                  <td><strong>XGBoost</strong></td>
+                  <td>54</td>
+                  <td style="color: var(--primary); font-weight: 700;">0.430550</td>
+                  <td>0.898213</td>
+                  <td>0.737418</td>
+                </tr>
+                <tr style="background: #f0fdf4;">
+                  <td><strong>CatBoost</strong></td>
+                  <td>54</td>
+                  <td>0.436126</td>
+                  <td style="color: #059669; font-weight: 700;">0.897665</td>
+                  <td style="color: #059669; font-weight: 700;">0.737738</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid-3" style="flex: 1.25; margin-top: 12px;">
+            <div class="card">
+              <div class="card-badge">1. RANDOM FOREST PERFORMANCE</div>
+              <div class="card-title">Random Forest (Bagging)</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.5;">
+                <li><strong>Test MAE: 0.439206 | RMSE: 0.908465 | R²: 0.731390</strong></li>
+                <li>Explains roughly 73% of the variation in hourly bike demand.</li>
+                <li>Confirms that bagging independent decision trees creates a reliable, stable baseline on tabular time features.</li>
+              </ul>
+              <div class="card-takeaway">Solid baseline performance across all stations.</div>
+            </div>
+
+            <div class="card accent-teal">
+              <div class="card-badge" style="color: var(--accent-teal);">2. XGBOOST PERFORMANCE</div>
+              <div class="card-title">XGBoost (Lowest MAE)</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.5;">
+                <li><strong>Test MAE: 0.430550 | RMSE: 0.898213 | R²: 0.737418</strong></li>
+                <li><strong>Lowest MAE (0.430550):</strong> Has the lowest average absolute error among all three models.</li>
+                <li>Very close to CatBoost on R² (0.7374 vs 0.7377).</li>
+              </ul>
+              <div class="card-takeaway">Most accurate on everyday average hourly demand.</div>
+            </div>
+
+            <div class="card accent-amber">
+              <div class="card-badge" style="color: var(--accent-amber);">3. CATBOOST PERFORMANCE</div>
+              <div class="card-title">CatBoost (Lowest RMSE & Highest R²)</div>
+              <ul class="card-list" style="font-size: 11.5px; line-height: 1.5;">
+                <li><strong>Test MAE: 0.436126 | RMSE: 0.897665 | R²: 0.737738</strong></li>
+                <li><strong>Lowest RMSE (0.897665) & Highest R² (0.737738):</strong> Lower RMSE means slightly lower error when penalizing larger surge mistakes.</li>
+                <li>Provides very fast prediction speed during evaluation.</li>
+              </ul>
+              <div class="card-takeaway">Best handling of peak surge prediction errors.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: DECIDING FACTORS & FEATURE IMPORTANCE -->
+      <section class="slide" id="slide-13" data-notes="Slide 12 examines Feature Importance: what influenced the predictions across all models.  • Top 5 Features Across All Models: 1. same_hour_previous_week: Demand at this exact station 7 days ago at the same hour was the single most powerful predictor. 2. lag_168h: Demand 168 hours ago, reinforcing identical weekly commuter travel habits. 3. peak_hour: Morning rush (7 to 9 AM) and evening rush (4 to 7 PM) binary flags. 4. lag_1h: Departures in the immediately preceding hour, capturing real-time station momentum. 5. lag_24h / same_hour_prev_day: Demand yesterday at the same hour.  • Visual Insights: The top chart confirms that all three algorithms place the heaviest weight on 7-day past demand and rush hour flags. The bottom chart displays actual vs predicted departures for CatBoost on the test set. Notice that prediction errors are tightly and symmetrically clustered around zero, confirming consistent calibration without systematic bias.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Model Explanation</div>
+            <h2 class="slide-title">What Influenced the Predictions? (Top 5 Features)</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 13 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="col-left">
+            <div class="card" style="height: 100%;">
+              <div class="card-badge">TOP 5 FEATURES ACROSS ALL MODELS</div>
+              <ul class="card-list" style="font-size: 12px; line-height: 1.6; margin-top: 4px;">
+                <li><strong>1. same_hour_previous_week:</strong> Demand at this station exactly 7 days ago at the same hour.</li>
+                <li><strong>2. lag_168h:</strong> Demand 168 hours ago (same 7-day past demand).</li>
+                <li><strong>3. peak_hour:</strong> Whether the hour is morning rush (7–9 AM) or evening rush (4–7 PM).</li>
+                <li><strong>4. lag_1h:</strong> Trip departures in the last 1 hour (captures immediate momentum).</li>
+                <li><strong>5. lag_24h / same_hour_prev_day:</strong> Demand yesterday at this same hour.</li>
+              </ul>
+              <div class="callout callout-success" style="margin-top: auto; margin-bottom: 0;">
+                <strong>Takeaway:</strong> Past demand and peak-hour information were the most important drivers of model predictions.
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/feature_importance_comparison.png" alt="Feature Importance Comparison" />
+              <div class="caption">Top Feature Importance: Random Forest vs XGBoost vs CatBoost</div>
+            </div>
+            <div class="media-card" style="flex: 1;">
+              <img src="reports/images/actual_vs_predicted_catboost.png" alt="Actual vs Predicted" />
+              <div class="caption">Actual vs Predicted Departures (CatBoost Test Set)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: NEXT PHASE IMPLEMENTATION PLAN -->
+      <section class="slide" id="slide-14" data-notes="Slide 13 outlines our roadmap for the Next Phase of implementation:  1. Build Streamlit UI: Develop an interactive, user-friendly web interface using Python Streamlit. 2. Connect Trained Model: Load the serialized CatBoost/XGBoost model into the backend pipeline for instant inference. 3. Station and Time Dropdowns: Allow transit managers to select any of the 70 stations, a target date, and an hour from simple dropdowns. 4. Display Predicted Demand: Instantly display the forecasted number of bike checkouts for that station-hour. 5. Interactive Visualizations: Show 24-hour historical curves and expected peak rush hour demand. 6. Redistribution Support: Provide proactive rebalancing recommendations so transit operators can move bikes before shortages occur. 7. End-to-End Testing: Perform comprehensive testing across edge cases, holidays, and high-traffic stations to ensure production reliability.">
+        <div class="slide-header">
+          <div>
+            <div class="chip-category">Future Work</div>
+            <h2 class="slide-title">Next Phase: Implementation Plan</h2>
+          </div>
+          <div class="slide-num-tag">SLIDE 14 / 15</div>
+        </div>
+        <div class="slide-body">
+          <div class="card" style="width: 100%; height: 100%;">
+            <div class="card-badge">NEXT PHASE ROADMAP</div>
+            <div class="card-title" style="margin-bottom: 12px;">What We Plan to Do in the Next Phase:</div>
+            <ul class="card-list" style="font-size: 12.5px; line-height: 1.7;">
+              <li><strong>1. Build Streamlit UI:</strong> Create an interactive, easy-to-use web interface using Python Streamlit.</li>
+              <li><strong>2. Connect Trained Model:</strong> Load the trained CatBoost/XGBoost model into the backend for instant predictions.</li>
+              <li><strong>3. Station and Time Selection:</strong> Allow users to pick a specific station, date, and hour from intuitive dropdowns.</li>
+              <li><strong>4. Display Predicted Demand:</strong> Show the predicted number of bike checkouts clearly for that upcoming hour.</li>
+              <li><strong>5. Show Demand Visualizations:</strong> Display clean charts showing historical trends and daily commuter peaks.</li>
+              <li><strong>6. Redistribution Support:</strong> Provide demand-based redistribution guidance to help transit operators move bikes before shortages occur.</li>
+              <li><strong>7. Test the Complete Application:</strong> Run end-to-end tests across various test stations to guarantee stable performance.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: CONCLUSION & THANK YOU -->
+      <section class="slide slide-dark" id="slide-15" data-notes="Slide 14 concludes our presentation.  • Summary of Achievements: We successfully resolved the zero-demand problem by expanding 669k trips into a continuous 1.23 million row grid, engineered 54 strictly causal features with zero leakage, and proved that tree ensemble models explain approximately 74% of demand variation on unseen future test data.  I would like to express my sincere gratitude to my project guide, Mr. Sibu Skaria, for his continuous guidance, and to the Department of Computer Applications. Thank you, respected panel members. I am now ready to take your questions and discussion.">
+        <div class="title-wrapper" style="text-align: center; justify-content: center; gap: 20px;">
+          <div>
+            <h1 class="main-heading" style="font-size: 42px; margin-bottom: 10px;">THANK YOU!</h1>
+            <p class="sub-heading" style="margin: 0 auto; color: #38bdf8; font-size: 19px; font-weight: 700;">
+              Urban Bike Sharing Demand Forecasting
+            </p>
+          </div>
+
+          <div style="background: rgba(30, 41, 59, 0.9); border: 1px solid var(--primary); border-radius: 12px; padding: 20px 30px; max-width: 650px; margin: 0 auto;">
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 6px;">Student & Guide Details</div>
+            <div style="font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 4px;">
+              Isabella Dennis <span style="color: #94a3b8; font-weight: 500;">(Roll No: 30)</span> &bull; Guide: Mr. Sibu Skaria
+            </div>
+            <div style="font-size: 12.5px; color: #94a3b8;">
+              Department of Computer Applications &bull; MCA Mini Project
+            </div>
+          </div>
+
+          <div style="font-size: 15px; font-weight: 700; color: #34d399; margin-top: 10px;">
+            Questions and Discussion
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Speaker Notes Drawer -->
+  <div id="speakerNotesDrawer">
+    <div class="notes-header">
+      <div class="notes-title">
+        <span>🎙️ Speaker Notes (Viva Guide)</span>
+        <span style="font-size: 11px; color: #94a3b8; font-weight: normal;">&mdash; Press 'N' to toggle</span>
+      </div>
+      <button class="notes-close" onclick="toggleNotes()">&times;</button>
+    </div>
+    <div class="notes-content" id="notesContent">
+      Loading notes...
+    </div>
+  </div>
+
+  <script>
+    const totalSlides = 15;
+    let currentSlide = 1;
+    let notesOpen = false;
+
+    function showSlide(num) {
+      if (num < 1) num = 1;
+      if (num > totalSlides) num = totalSlides;
+      currentSlide = num;
+
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+          const notes = slide.getAttribute('data-notes') || 'No notes for this slide.';
+          document.getElementById('notesContent').innerText = notes;
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      document.getElementById('slideIndicator').innerText = 
+        `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) showSlide(currentSlide - 1);
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+    }
+
+    function toggleNotes() {
+      notesOpen = !notesOpen;
+      const drawer = document.getElementById('speakerNotesDrawer');
+      const btn = document.getElementById('toggleNotesBtn');
+      if (notesOpen) {
+        drawer.classList.add('open');
+        btn.style.background = 'rgba(217, 119, 6, 0.5)';
+      } else {
+        drawer.classList.remove('open');
+        btn.style.background = 'rgba(217, 119, 6, 0.2)';
+      }
+    }
+
+    function toggleFullScreen() {
+      const stage = document.querySelector('.slide-viewport');
+      if (!document.fullscreenElement) {
+        if (stage.requestFullscreen) stage.requestFullscreen();
+        else if (stage.webkitRequestFullscreen) stage.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'n' || e.key === 'N') {
+        toggleNotes();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      }
+    });
+
+    showSlide(1);
+  </script>
+</body>
+</html>
+"""
+    with open("presentation.html", "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print("Successfully generated updated presentation.html with 14 slides and speaker notes drawer.")
+
+if __name__ == "__main__":
+    generate_html()

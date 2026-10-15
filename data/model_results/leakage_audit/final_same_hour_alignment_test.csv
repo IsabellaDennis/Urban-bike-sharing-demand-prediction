@@ -1,0 +1,5 @@
+feature,match_percentage,max_difference
+same_hour_previous_day,100.0,0.0
+same_hour_previous_2days,100.0,0.0
+same_hour_previous_3days,100.0,0.0
+same_hour_previous_week,100.0,0.0

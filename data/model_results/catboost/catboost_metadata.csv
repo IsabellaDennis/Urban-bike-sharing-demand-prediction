@@ -1,0 +1,2 @@
+model_name,loss_function,eval_metric,iterations,depth,learning_rate,l2_leaf_reg,random_seed,thread_count,features_count,training_rows,validation_rows,test_rows,validation_mae,validation_rmse,validation_r2,test_mae,test_rmse,test_r2,training_time_seconds,prediction_time_seconds
+CatBoost,RMSE,RMSE,600,8,0.05,3,42,-1,54,861560,184590,184660,0.41727597713190395,0.8833521223563623,0.7364256700461362,0.43612555486242216,0.897665223925759,0.737738388706388,103.85841012001038,0.0731663703918457

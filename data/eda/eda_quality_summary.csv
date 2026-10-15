@@ -1,0 +1,11 @@
+Metric,Value
+Total trip records,669959
+Total raw columns,12
+Missing values,6619
+Duplicate rows,0
+Invalid start dates,0
+Invalid end dates,0
+Unique start stations,70
+Unique end stations,70
+Maximum trip duration (seconds),17270400
+Minimum trip duration (seconds),60

@@ -1,0 +1,51 @@
+start_station_id,start_station_name,hour_timestamp,demand,special_event
+2,San Jose Diridon Caltrain Station,2013-09-29 00:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 01:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 02:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 03:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 04:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 05:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 06:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 07:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 08:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 09:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 10:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 11:00:00,1,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 12:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 13:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 14:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 15:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 16:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 17:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 18:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 19:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 20:00:00,1,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 21:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 22:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-09-29 23:00:00,0,Concert
+2,San Jose Diridon Caltrain Station,2013-10-31 00:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-10-31 01:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-10-31 02:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-10-31 03:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-10-31 04:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-10-31 05:00:00,0,Halloween
+2,San Jose Diridon Caltrain Station,2013-08-29 09:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 10:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 11:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 12:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 13:00:00,1,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 14:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 15:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 16:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 17:00:00,1,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 18:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 19:00:00,2,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 20:00:00,1,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 21:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 22:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-29 23:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-30 00:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-30 01:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-30 02:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-30 03:00:00,0,No Event
+2,San Jose Diridon Caltrain Station,2013-08-30 04:00:00,0,No Event

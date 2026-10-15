@@ -1,0 +1,13 @@
+Column,Unique Values
+id,669959
+duration,16129
+start_date,361559
+start_station_name,74
+start_station_id,70
+end_date,357757
+end_station_name,74
+end_station_id,70
+bike_id,700
+subscription_type,2
+zip_code,7439
+special_event,9

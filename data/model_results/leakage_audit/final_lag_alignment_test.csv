@@ -1,0 +1,10 @@
+feature,match_percentage,max_difference
+lag_1h,100.0,0.0
+lag_2h,100.0,0.0
+lag_3h,100.0,0.0
+lag_6h,100.0,0.0
+lag_12h,100.0,0.0
+lag_24h,100.0,0.0
+lag_48h,100.0,0.0
+lag_72h,100.0,0.0
+lag_168h,100.0,0.0

@@ -1,0 +1,13 @@
+Column,Missing Values,Missing Percentage
+id,0,0.0
+duration,0,0.0
+start_date,0,0.0
+start_station_name,0,0.0
+start_station_id,0,0.0
+end_date,0,0.0
+end_station_name,0,0.0
+end_station_id,0,0.0
+bike_id,0,0.0
+subscription_type,0,0.0
+zip_code,6619,0.9879709056822881
+special_event,0,0.0

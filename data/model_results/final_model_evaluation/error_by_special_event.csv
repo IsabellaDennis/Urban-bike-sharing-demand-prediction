@@ -1,0 +1,2 @@
+special_event_name,xgboost_mae,random_forest_mae,catboost_mae,xgboost_rmse,random_forest_rmse,catboost_rmse,total_demand,sample_count
+No Event,0.43079603719285775,0.439265191241934,0.43612555486242216,0.9005735265108424,0.9084585263350631,0.897665223925759,112624,184660
