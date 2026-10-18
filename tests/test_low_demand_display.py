@@ -2,8 +2,15 @@
 Automated validation of continuous predicted demand rate, separate integer trip estimate,
 and accurate demand badges across different demand levels.
 """
+import sys
+from pathlib import Path
 import pandas as pd
 import numpy as np
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from dashboard.app import (
     load_production_model,
     load_feature_list,

@@ -20,8 +20,15 @@ Unit test verifying conventional nearest-integer, half-up rounding for Rounded D
   - -0.50 -> 0 trips
   - -2.50 -> 0 trips
 """
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from dashboard.app import (
     load_production_model,
     load_feature_list,

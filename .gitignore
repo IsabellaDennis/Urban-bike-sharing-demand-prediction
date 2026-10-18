@@ -20,14 +20,22 @@ ENV/
 Thumbs.db
 desktop.ini
 
-# Backup files
+# Backup and temporary files
 *.bak
 *_backup.*
 *.swp
 *~
+scratch/
+
+# Testing and IDE artifacts
+.pytest_cache/
+.vscode/
+.idea/
 
 # Large files exceeding GitHub's 100MB limit
 *station_hourly_demand_features.csv
+notebooks/*.csv
+notebooks/**/*.csv
 colab_notebooks/*.csv
 colab_notebooks/**/*.csv
 models/random_forest_final_model.pkl

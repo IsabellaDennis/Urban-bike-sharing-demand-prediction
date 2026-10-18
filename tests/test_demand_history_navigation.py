@@ -2,7 +2,14 @@
 Unit and state persistence test for Demand History filters across page navigation,
 including Peak Departure Hour verification and confirmation that Peak Departure Intervals is removed.
 """
+import sys
+from pathlib import Path
 import pandas as pd
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from dashboard.app import query_station_history, PARQUET_FEATURES_PATH
 
 def test_demand_history_peak_hour_calculation():
@@ -58,21 +65,22 @@ def test_state_persistence_logic():
     HIST_MIN_DATE = pd.to_datetime("2013-01-01").date()
     HIST_MAX_DATE = pd.to_datetime("2015-08-31").date()
     
-    # 1. First visit to Demand History
+    # 1. First visit to Demand History (unselected initial state)
     if "hist_persisted_station" not in session_state:
-        session_state["hist_persisted_station"] = default_station
+        session_state["hist_persisted_station"] = None
     if "hist_persisted_start_dt" not in session_state:
-        session_state["hist_persisted_start_dt"] = pd.to_datetime("2015-06-01").date()
+        session_state["hist_persisted_start_dt"] = None
     if "hist_persisted_end_dt" not in session_state:
-        session_state["hist_persisted_end_dt"] = pd.to_datetime("2015-06-30").date()
+        session_state["hist_persisted_end_dt"] = None
     if "hist_persisted_agg" not in session_state:
-        session_state["hist_persisted_agg"] = "Daily"
+        session_state["hist_persisted_agg"] = None
         
-    assert session_state["hist_persisted_station"] == 70
-    assert session_state["hist_persisted_start_dt"] == pd.to_datetime("2015-06-01").date()
-    assert session_state["hist_persisted_end_dt"] == pd.to_datetime("2015-06-30").date()
+    assert session_state["hist_persisted_station"] is None
+    assert session_state["hist_persisted_start_dt"] is None
+    assert session_state["hist_persisted_end_dt"] is None
+    assert session_state["hist_persisted_agg"] is None
     
-    # 2. User changes filters on Demand History: Station 21, Sept 1 2013, Sept 30 2013
+    # 2. User selects filters on Demand History: Station 21, Sept 1 2013, Sept 30 2013, Hourly
     session_state["hist_persisted_station"] = 21
     session_state["hist_persisted_start_dt"] = pd.to_datetime("2013-09-01").date()
     session_state["hist_persisted_end_dt"] = pd.to_datetime("2013-09-30").date()
@@ -90,13 +98,13 @@ def test_state_persistence_logic():
     
     # 4. User navigates back to Demand History
     if "hist_persisted_station" not in session_state:
-        session_state["hist_persisted_station"] = default_station
+        session_state["hist_persisted_station"] = None
     if "hist_persisted_start_dt" not in session_state:
-        session_state["hist_persisted_start_dt"] = pd.to_datetime("2015-06-01").date()
+        session_state["hist_persisted_start_dt"] = None
     if "hist_persisted_end_dt" not in session_state:
-        session_state["hist_persisted_end_dt"] = pd.to_datetime("2015-06-30").date()
+        session_state["hist_persisted_end_dt"] = None
     if "hist_persisted_agg" not in session_state:
-        session_state["hist_persisted_agg"] = "Daily"
+        session_state["hist_persisted_agg"] = None
         
     assert session_state["hist_persisted_station"] == 21
     assert session_state["hist_persisted_start_dt"] == pd.to_datetime("2013-09-01").date()

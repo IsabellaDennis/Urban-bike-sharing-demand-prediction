@@ -1,4 +1,11 @@
+import sys
+from pathlib import Path
 import pandas as pd
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from dashboard.app import load_eda_data, get_station_capacity, query_station_history
 
 def test_top_network_stations_calculation():

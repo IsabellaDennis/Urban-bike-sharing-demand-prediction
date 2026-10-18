@@ -833,22 +833,29 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] > div[data-test
 }
 
 /* Pure Crisp White SaaS Card Container */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
 div[data-testid="stVerticalBlockBorderWrapper"] {
     display: flex !important;
     flex-direction: column !important;
-    flex: 1 1 100% !important;
-    height: 100% !important;
+    height: auto !important;
+    min-height: min-content !important;
     margin-bottom: 0px !important;
     background: #FFFFFF !important;
     border-radius: 16px !important;
     border: 1px solid #E2E8F0 !important;
     box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03) !important;
-    padding: 24px 26px !important;
+    padding: 24px 26px 28px 26px !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
     transition: all 0.22s ease !important;
 }
 
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"]:hover,
+/* Inside horizontal column rows, stretch card wrappers to equal full height */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"] [data-testid="stVerticalBlockBorderWrapper"],
+div[data-testid="stHorizontalBlock"] [data-testid="stVerticalBlockBorderWrapper"] {
+    flex: 1 1 100% !important;
+    height: 100% !important;
+}
+
 div[data-testid="stVerticalBlockBorderWrapper"]:hover {
     border-color: #93C5FD !important;
     box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 10px -2px rgba(37, 99, 235, 0.06) !important;
@@ -864,13 +871,13 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"] [data-testid="s
     background: transparent !important;
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] > div {
+div[data-testid="stVerticalBlockBorderWrapper"] > div[data-testid="stVerticalBlock"] {
+    height: auto !important;
     background: transparent !important;
 }
 
-/* Equal-height border container flex cards */
-div[data-testid="stHorizontalBlock"] [data-testid="stVerticalBlockBorderWrapper"] {
-    height: 100% !important;
+div[data-testid="stVerticalBlockBorderWrapper"] > div {
+    background: transparent !important;
 }
 
 /* Hero Panoramic Banner */
@@ -1428,185 +1435,6 @@ div.stButton > button[kind="secondary"]:hover {
     min-height: 450px;
     height: 100%;
 }
-
-/* ================================================================
-   ABOUT PROJECT: 2x2 EQUAL-HEIGHT GRID SYSTEM
-   ================================================================ */
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 1fr;
-    gap: 18px;
-    width: 100%;
-}
-
-@media (max-width: 820px) {
-    .about-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
-    }
-}
-
-.about-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 14px;
-    padding: 22px 24px;
-    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    min-height: 290px;
-    box-sizing: border-box;
-    transition: all 0.22s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.about-card:hover {
-    box-shadow: 0 10px 24px -2px rgba(15, 23, 42, 0.08);
-    border-color: #93C5FD;
-    transform: translateY(-2px);
-}
-
-.about-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3.5px;
-}
-
-.about-card-blue::before { background: linear-gradient(90deg, #2563EB, #60A5FA); }
-.about-card-purple::before { background: linear-gradient(90deg, #7C3AED, #A78BFA); }
-.about-card-emerald::before { background: linear-gradient(90deg, #059669, #34D399); }
-.about-card-cyan::before { background: linear-gradient(90deg, #0284C7, #38BDF8); }
-
-.about-header-row {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    margin-bottom: 14px;
-}
-
-.about-icon-box {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.15rem;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
-}
-
-.about-card-title {
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 1.12rem;
-    font-weight: 800;
-    color: #0F172A;
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-}
-
-.about-card-body {
-    font-size: 0.88rem;
-    color: #475569;
-    line-height: 1.6;
-    flex-grow: 1;
-}
-
-.about-list {
-    margin: 0;
-    padding-left: 18px;
-    list-style-type: disc;
-}
-
-.about-list li {
-    font-size: 0.87rem;
-    color: #475569;
-    line-height: 1.6;
-    margin-bottom: 7px;
-}
-
-.about-list li:last-child {
-    margin-bottom: 0;
-}
-
-.about-note-box {
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 9px;
-    padding: 10px 14px;
-    font-size: 0.78rem;
-    color: #64748B;
-    line-height: 1.45;
-    margin-top: 14px;
-}
-
-.about-footer-tag {
-    font-size: 0.75rem;
-    color: #64748B;
-    border-top: 1px solid #F1F5F9;
-    padding-top: 10px;
-    margin-top: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.about-chip-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.about-chip {
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 9px;
-    padding: 8px 12px;
-    display: flex;
-    flex-direction: column;
-}
-
-.about-chip-lbl {
-    font-size: 0.67rem;
-    font-weight: 700;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 2px;
-}
-
-.about-chip-val {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.90rem;
-    font-weight: 800;
-    color: #0F172A;
-    line-height: 1.2;
-}
-
-.tech-tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-}
-
-.tech-tag {
-    background: #EFF6FF;
-    border: 1px solid #BFDBFE;
-    color: #1E40AF;
-    font-size: 0.73rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
-}
 </style>
 """
     return css_code.replace("__HERO_BG__", hero_bg)
@@ -1685,16 +1513,15 @@ def main():
             """
         )
 
-        # Middle: Three navigation links with clean, consistent line icons
+        # Middle: Two navigation links with clean, consistent line icons
         nav_labels = {
             "Dashboard": "⊞  Dashboard",
             "Demand History": "◷  Demand History",
-            "About Project": "ⓘ  About Project",
         }
 
         selected_page = st.radio(
             "Navigation Menu",
-            options=["Dashboard", "Demand History", "About Project"],
+            options=["Dashboard", "Demand History"],
             format_func=lambda p: nav_labels.get(p, p),
             index=0,
             label_visibility="collapsed"
@@ -1731,64 +1558,29 @@ def main():
     if selected_page == "Dashboard":
         # State management for predictions
         if "has_predicted" not in st.session_state:
-            st.session_state["has_predicted"] = True
-            st.session_state["active_stn"] = default_station
-            st.session_state["active_date"] = pd.to_datetime("2015-06-15").date()
-            st.session_state["active_hour_int"] = 8
-            st.session_state["active_hour_label"] = "08:00 AM"
+            st.session_state["has_predicted"] = False
+            st.session_state["active_stn"] = None
+            st.session_state["active_date"] = None
+            st.session_state["active_hour_int"] = None
+            st.session_state["active_hour_label"] = None
+            st.session_state["validation_error"] = None
 
-        has_predicted = st.session_state.get("has_predicted", True)
+        has_predicted = st.session_state.get("has_predicted", False)
 
-        # Reactive synchronization with interactive widgets
-        if "sel_station_dropdown" in st.session_state and st.session_state["sel_station_dropdown"] in all_station_ids:
-            curr_stn = st.session_state["sel_station_dropdown"]
-            st.session_state["active_stn"] = curr_stn
-        else:
-            curr_stn = st.session_state.get("active_stn", default_station)
+        curr_stn = st.session_state.get("active_stn", None)
+        curr_date = st.session_state.get("active_date", None)
+        curr_hour_int = st.session_state.get("active_hour_int", None)
+        curr_hour_label = st.session_state.get("active_hour_label", None)
 
-        min_test_date = pd.to_datetime("2015-05-14").date()
-        max_test_date = pd.to_datetime("2026-12-31").date()
-        if "sel_date_picker" in st.session_state and st.session_state["sel_date_picker"] is not None:
-            curr_date = st.session_state["sel_date_picker"]
-            if curr_date < min_test_date:
-                curr_date = min_test_date
-                st.session_state["sel_date_picker"] = min_test_date
-            elif curr_date > max_test_date:
-                curr_date = max_test_date
-                st.session_state["sel_date_picker"] = max_test_date
-            st.session_state["active_date"] = curr_date
-        else:
-            curr_date = st.session_state.get("active_date", pd.to_datetime("2015-06-15").date())
-            if curr_date < min_test_date:
-                curr_date = min_test_date
-            elif curr_date > max_test_date:
-                curr_date = max_test_date
+        if has_predicted and curr_stn is not None and curr_date is not None and curr_hour_int is not None:
+            curr_target_dt = pd.Timestamp(curr_date) + pd.Timedelta(hours=curr_hour_int)
+            curr_capacity = get_station_capacity(curr_stn)
+            curr_available = estimate_available_bikes(curr_stn, curr_capacity)
+            start_hour_str = hour_labels[curr_hour_int]
+            end_hour_str = hour_labels[(curr_hour_int + 1) % 24]
+            destination_station_name = station_names.get(curr_stn, f"Station {curr_stn}")
 
-        if "sel_hour_dropdown" in st.session_state:
-            curr_hour_label = st.session_state["sel_hour_dropdown"]
-            curr_hour_int = hour_to_int.get(curr_hour_label, 8)
-            if curr_date == min_test_date and curr_hour_int < 2:
-                curr_hour_int = 2
-                curr_hour_label = hour_options[2]
-                st.session_state["sel_hour_dropdown"] = curr_hour_label
-            st.session_state["active_hour_int"] = curr_hour_int
-            st.session_state["active_hour_label"] = curr_hour_label
-        else:
-            curr_hour_int = st.session_state.get("active_hour_int", 8)
-            if curr_date == min_test_date and curr_hour_int < 2:
-                curr_hour_int = 2
-            curr_hour_label = st.session_state.get("active_hour_label", hour_options[curr_hour_int] if curr_hour_int < len(hour_options) else "08:00 AM")
-
-        curr_target_dt = pd.Timestamp(curr_date) + pd.Timedelta(hours=curr_hour_int)
-
-        curr_capacity = get_station_capacity(curr_stn)
-        curr_available = estimate_available_bikes(curr_stn, curr_capacity)
-        start_hour_str = hour_labels[curr_hour_int]
-        end_hour_str = hour_labels[(curr_hour_int + 1) % 24]
-        destination_station_name = station_names.get(curr_stn, f"Station {curr_stn}")
-
-        # Model Inference & Redistribution Calculation
-        if has_predicted:
+            # Model Inference & Redistribution Calculation
             predicted_demand_val = 12.0
             predicted_departures = 12
             method_badge_label = "Verified ML Model"
@@ -1877,7 +1669,14 @@ def main():
             unmet_demand = donor_match.get("unmet_demand", 0)
             donor_reason = donor_match["rationale"]
         else:
+            has_predicted = False
+            predicted_demand_val = 0.0
             predicted_departures = None
+            curr_capacity = None
+            curr_available = None
+            start_hour_str = ""
+            end_hour_str = ""
+            destination_station_name = ""
             estimated_remaining_stock = None
             shortage_count = None
             transfer_qty = None
@@ -1952,6 +1751,15 @@ def main():
             )
 
         with kpi_c2:
+            if has_predicted and curr_available is not None:
+                avail_num = str(curr_available)
+                avail_unit = 'bike' if curr_available == 1 else 'bikes'
+                avail_sub = f"{curr_capacity} docks total"
+                val_html_c2 = f'<div class="kpi-val-row"><span class="kpi-val-num">{avail_num}</span><span class="kpi-val-unit">{avail_unit}</span></div>'
+            else:
+                avail_sub = "Awaiting prediction"
+                val_html_c2 = '<div class="kpi-val-row"><span class="kpi-val-num">—</span></div>'
+
             render_html(
                 f"""
                 <div class="kpi-card kpi-card-green">
@@ -1959,11 +1767,8 @@ def main():
                         <span class="kpi-label">Bikes Available</span>
                         <div class="kpi-icon-pill" style="background:#ECFDF5; color:#059669;">🚲</div>
                     </div>
-                    <div class="kpi-val-row">
-                        <span class="kpi-val-num">{curr_available}</span>
-                        <span class="kpi-val-unit">{'bike' if curr_available == 1 else 'bikes'}</span>
-                    </div>
-                    <div class="kpi-desc">{curr_capacity} docks total</div>
+                    {val_html_c2}
+                    <div class="kpi-desc">{avail_sub}</div>
                 </div>
                 """
             )
@@ -2037,6 +1842,10 @@ def main():
         # ------------------------------------------------------------
         col_form, col_res = st.columns([1, 1], gap="medium")
 
+        def _on_prediction_input_change():
+            st.session_state["has_predicted"] = False
+            st.session_state["validation_error"] = None
+
         with col_form:
             with st.container(border=True):
                 render_html(
@@ -2047,27 +1856,28 @@ def main():
                     """
                 )
 
-                st_idx = all_station_ids.index(curr_stn) if curr_stn in all_station_ids else 0
                 selected_stn = st.selectbox(
                     "Bike Station",
                     options=all_station_ids,
-                    index=st_idx,
+                    index=None,
+                    placeholder="Select a station",
                     format_func=lambda sid: station_names.get(sid, f"Station {sid}"),
                     key="sel_station_dropdown",
+                    on_change=_on_prediction_input_change,
                 )
 
                 sub_c1, sub_c2 = st.columns(2)
                 with sub_c1:
                     min_test_date = pd.to_datetime("2015-05-14").date()
-                    if curr_date < min_test_date:
-                        curr_date = min_test_date
+                    max_test_date = pd.to_datetime("2026-12-31").date()
                     selected_date = st.date_input(
                         "Date",
-                        value=curr_date,
+                        value=None,
                         min_value=min_test_date,
-                        max_value=pd.to_datetime("2026-12-31").date(),
+                        max_value=max_test_date,
                         help="Calendar starts on May 14, 2015 (the beginning of the unseen testing dataset).",
                         key="sel_date_picker",
+                        on_change=_on_prediction_input_change,
                     )
                 with sub_c2:
                     if selected_date == min_test_date:
@@ -2075,32 +1885,77 @@ def main():
                     else:
                         avail_hour_options = hour_options
 
-                    if curr_hour_label in avail_hour_options:
-                        h_idx = avail_hour_options.index(curr_hour_label)
-                    elif curr_hour_int >= 2:
-                        lbl_match = hour_options[curr_hour_int] if curr_hour_int < len(hour_options) else None
-                        h_idx = avail_hour_options.index(lbl_match) if lbl_match in avail_hour_options else 0
-                    else:
-                        h_idx = 0
+                    # Ensure existing session state for hour is valid if date changed to min_test_date
+                    if st.session_state.get("sel_hour_dropdown") is not None and st.session_state.get("sel_hour_dropdown") not in avail_hour_options:
+                        st.session_state["sel_hour_dropdown"] = None
 
                     selected_hour_str = st.selectbox(
                         "Hour",
                         options=avail_hour_options,
-                        index=h_idx,
+                        index=None,
+                        placeholder="Select a time",
                         help="On May 14, 2015, testing data begins at 02:00 AM. Prior hours (12:00 AM–01:59 AM) are excluded." if selected_date == min_test_date else None,
                         key="sel_hour_dropdown",
+                        on_change=_on_prediction_input_change,
                     )
 
-                chosen_hour = hour_to_int.get(selected_hour_str, 8)
+                chosen_hour = hour_to_int.get(selected_hour_str) if selected_hour_str else None
+
+                # Inject script to update date input placeholder text to 'Select a date' when unselected
+                st.html(
+                    """
+                    <script>
+                    (function() {
+                        function setDatePlaceholder() {
+                            const dateInputs = document.querySelectorAll('div[data-testid="stDateInput"] input');
+                            dateInputs.forEach(function(inp) {
+                                if (!inp.value || inp.value.trim() === '') {
+                                    inp.placeholder = 'Select a date';
+                                }
+                            });
+                        }
+                        setDatePlaceholder();
+                        setTimeout(setDatePlaceholder, 50);
+                        setTimeout(setDatePlaceholder, 250);
+                    })();
+                    </script>
+                    """,
+                    unsafe_allow_javascript=True
+                )
+
+                # Safeguard: if any input changed after prediction was run, clear prediction
+                if has_predicted:
+                    if (selected_stn != curr_stn or selected_date != curr_date or selected_hour_str != curr_hour_label):
+                        st.session_state["has_predicted"] = False
+                        st.session_state["validation_error"] = None
+                        st.rerun()
 
                 st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
                 if st.button("Predict Demand", type="primary", use_container_width=True):
-                    st.session_state["has_predicted"] = True
-                    st.session_state["active_stn"] = selected_stn
-                    st.session_state["active_date"] = selected_date
-                    st.session_state["active_hour_int"] = chosen_hour
-                    st.session_state["active_hour_label"] = selected_hour_str
-                    st.rerun()
+                    missing_fields = []
+                    if selected_stn is None:
+                        missing_fields.append("station")
+                    if selected_date is None:
+                        missing_fields.append("date")
+                    if selected_hour_str is None or chosen_hour is None:
+                        missing_fields.append("time")
+
+                    if missing_fields:
+                        st.session_state["validation_error"] = f"Please select a {' and '.join(missing_fields)} to predict demand."
+                        st.session_state["has_predicted"] = False
+                        st.rerun()
+                    else:
+                        st.session_state["validation_error"] = None
+                        st.session_state["has_predicted"] = True
+                        st.session_state["active_stn"] = selected_stn
+                        st.session_state["active_date"] = selected_date
+                        st.session_state["active_hour_int"] = chosen_hour
+                        st.session_state["active_hour_label"] = selected_hour_str
+                        st.rerun()
+
+                if st.session_state.get("validation_error"):
+                    st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                    st.warning(st.session_state["validation_error"])
 
         with col_res:
             with st.container(border=True):
@@ -2118,7 +1973,7 @@ def main():
                         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:220px; text-align:center; padding: 20px 0;">
                             <div style="font-size:2.2rem; margin-bottom:8px;">⏱️</div>
                             <div style="font-size:1.0rem; font-weight:600; color:#334155; max-width:320px; line-height:1.45;">
-                                Choose a station and time, then click Predict Demand.
+                                Select a station, date, and time to predict demand.
                             </div>
                         </div>
                         """
@@ -2244,11 +2099,8 @@ def main():
                         </div>
                     </div>
 
-                    <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:12px 14px; font-size:0.88rem; color:#334155; line-height:1.45; margin-top:8px;">
+                    <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:12px 16px; font-size:0.88rem; color:#334155; line-height:1.45; margin-top:10px; margin-bottom:4px; box-sizing:border-box; width:100%;">
                         {explain_sentence}
-                    </div>
-                    <div style="font-size:0.75rem; color:#64748B; margin-top:8px;">
-                        * Note: Estimated remaining bikes assume no incoming bikes are returned during the selected hour.
                     </div>
                     """
                 )
@@ -2347,7 +2199,7 @@ def main():
                             </div>
                         </div>
 
-                        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:12px 16px; font-size:0.88rem; color:#334155; line-height:1.5; margin-top:12px;">
+                        <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:10px; padding:12px 16px; font-size:0.88rem; color:#334155; line-height:1.5; margin-top:12px; margin-bottom:4px; box-sizing:border-box; width:100%;">
                             {d_single['donor_name']} has {d_single['safe_surplus']} bikes available to share after meeting its expected demand. Move {format_bikes(d_single['recommended_transfer'])} to {destination_station_name}, which is expected to need {shortage_count} additional {b_word_need}.
                         </div>
                         """
@@ -2465,7 +2317,7 @@ def main():
                             </div>
 
                             <!-- Contextual Rationale Box -->
-                            <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:12px 16px; font-size:0.86rem; color:#334155; line-height:1.5;">
+                            <div style="background:#FFFFFF; border:1px solid #CBD5E1; border-radius:10px; padding:12px 16px; font-size:0.86rem; color:#334155; line-height:1.5; margin-bottom:4px; box-sizing:border-box; width:100%;">
                                 {donor_reason}
                             </div>
                         </div>
@@ -2494,35 +2346,35 @@ def main():
         HIST_MAX_DATE = pd.to_datetime("2015-08-31").date()
 
         if "hist_persisted_station" not in st.session_state:
-            st.session_state["hist_persisted_station"] = default_station
+            st.session_state["hist_persisted_station"] = None
         if "hist_persisted_start_dt" not in st.session_state:
-            st.session_state["hist_persisted_start_dt"] = pd.to_datetime("2015-06-01").date()
+            st.session_state["hist_persisted_start_dt"] = None
         if "hist_persisted_end_dt" not in st.session_state:
-            st.session_state["hist_persisted_end_dt"] = pd.to_datetime("2015-06-30").date()
+            st.session_state["hist_persisted_end_dt"] = None
         if "hist_persisted_agg" not in st.session_state:
-            st.session_state["hist_persisted_agg"] = "Daily"
+            st.session_state["hist_persisted_agg"] = None
 
         # Validate range and options constraints on persisted values
-        cur_stn = st.session_state["hist_persisted_station"]
-        if cur_stn not in all_station_ids:
-            cur_stn = default_station
-            st.session_state["hist_persisted_station"] = cur_stn
+        cur_stn = st.session_state.get("hist_persisted_station", None)
+        if cur_stn is not None and cur_stn not in all_station_ids:
+            cur_stn = None
+            st.session_state["hist_persisted_station"] = None
 
-        cur_start = st.session_state["hist_persisted_start_dt"]
-        if cur_start < HIST_MIN_DATE or cur_start > HIST_MAX_DATE:
-            cur_start = pd.to_datetime("2015-06-01").date()
-            st.session_state["hist_persisted_start_dt"] = cur_start
+        cur_start = st.session_state.get("hist_persisted_start_dt", None)
+        if cur_start is not None and (cur_start < HIST_MIN_DATE or cur_start > HIST_MAX_DATE):
+            cur_start = None
+            st.session_state["hist_persisted_start_dt"] = None
 
-        cur_end = st.session_state["hist_persisted_end_dt"]
-        if cur_end < HIST_MIN_DATE or cur_end > HIST_MAX_DATE:
-            cur_end = pd.to_datetime("2015-06-30").date()
-            st.session_state["hist_persisted_end_dt"] = cur_end
+        cur_end = st.session_state.get("hist_persisted_end_dt", None)
+        if cur_end is not None and (cur_end < HIST_MIN_DATE or cur_end > HIST_MAX_DATE):
+            cur_end = None
+            st.session_state["hist_persisted_end_dt"] = None
 
         agg_options = ["Daily", "Hourly"]
-        cur_agg = st.session_state["hist_persisted_agg"]
-        if cur_agg not in agg_options:
-            cur_agg = "Daily"
-            st.session_state["hist_persisted_agg"] = cur_agg
+        cur_agg = st.session_state.get("hist_persisted_agg", None)
+        if cur_agg is not None and cur_agg not in agg_options:
+            cur_agg = None
+            st.session_state["hist_persisted_agg"] = None
 
         def _on_hist_stn_change():
             st.session_state["hist_persisted_station"] = st.session_state["hist_stn_select"]
@@ -2540,10 +2392,12 @@ def main():
         with st.container(border=True):
             f_col1, f_col2, f_col3, f_col4 = st.columns([1.5, 1, 1, 1], gap="medium")
             with f_col1:
+                stn_idx = all_station_ids.index(cur_stn) if cur_stn in all_station_ids else None
                 hist_stn = st.selectbox(
                     "Bike Station",
                     options=all_station_ids,
-                    index=all_station_ids.index(cur_stn),
+                    index=stn_idx,
+                    placeholder="Select a station",
                     format_func=lambda s: station_names.get(s, f"Station {s}"),
                     key="hist_stn_select",
                     on_change=_on_hist_stn_change
@@ -2567,13 +2421,44 @@ def main():
                     on_change=_on_hist_end_change
                 )
             with f_col4:
+                agg_idx = agg_options.index(cur_agg) if cur_agg in agg_options else None
                 hist_agg = st.selectbox(
                     "Time Resolution",
                     options=agg_options,
-                    index=agg_options.index(cur_agg),
+                    index=agg_idx,
+                    placeholder="Select time resolution",
                     key="hist_agg_select",
                     on_change=_on_hist_agg_change
                 )
+
+            # Inject script to update start date and end date placeholders
+            st.html(
+                """
+                <script>
+                (function() {
+                    function setHistDatePlaceholders() {
+                        const dateInputs = document.querySelectorAll('div[data-testid="stDateInput"]');
+                        dateInputs.forEach(function(container) {
+                            const label = container.querySelector('label');
+                            const input = container.querySelector('input');
+                            if (input && (!input.value || input.value.trim() === '')) {
+                                const lblText = label ? label.innerText : '';
+                                if (lblText.includes('Start Date')) {
+                                    input.placeholder = 'Select start date';
+                                } else if (lblText.includes('End Date')) {
+                                    input.placeholder = 'Select end date';
+                                }
+                            }
+                        });
+                    }
+                    setHistDatePlaceholders();
+                    setTimeout(setHistDatePlaceholders, 50);
+                    setTimeout(setHistDatePlaceholders, 250);
+                })();
+                </script>
+                """,
+                unsafe_allow_javascript=True
+            )
 
         # Sync persisted state with active widget return values
         st.session_state["hist_persisted_station"] = hist_stn
@@ -2581,7 +2466,26 @@ def main():
         st.session_state["hist_persisted_end_dt"] = hist_end
         st.session_state["hist_persisted_agg"] = hist_agg
 
-        if hist_start > hist_end:
+        filters_complete = (
+            hist_stn is not None and
+            hist_start is not None and
+            hist_end is not None and
+            hist_agg is not None
+        )
+
+        if not filters_complete:
+            render_html(
+                """
+                <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:32px 24px; text-align:center; margin: 16px 0;">
+                    <div style="font-size:2.2rem; margin-bottom:8px;">⏱️</div>
+                    <div style="font-size:1.02rem; font-weight:600; color:#334155; line-height:1.45;">
+                        Select a station, date range, and time resolution to view historical demand.
+                    </div>
+                </div>
+                """
+            )
+        elif hist_start > hist_end:
+            st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
             st.error("Start date must be earlier than or equal to End date.")
         else:
             hist_res = query_station_history(
@@ -2759,156 +2663,7 @@ def main():
                     }
                 )
 
-    # ============================================================
-    # 3. ABOUT PROJECT PAGE
-    # ============================================================
-    elif selected_page == "About Project":
-        render_html(
-            """
-            <div style="padding: 14px 0 14px 0; border-bottom: 1px solid #E2E8F0; margin-bottom: 20px;">
-                <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:1.75rem; font-weight:800; color:#0F172A; letter-spacing:-0.02em;">
-                    About SmartBike AI
-                </div>
-                <div style="font-size:0.88rem; color:#64748B; margin-top:3px;">
-                    How the system predicts demand and recommends bike transfers.
-                </div>
-            </div>
-
-            <div class="about-grid">
-                <!-- Card 1: Project Overview -->
-                <div class="about-card about-card-blue">
-                    <div>
-                        <div class="about-header-row">
-                            <div class="about-icon-box" style="background:#EFF6FF; color:#2563EB; border:1px solid #BFDBFE;">
-                                🏙️
-                            </div>
-                            <div>
-                                <div class="about-card-title">Project Overview</div>
-                                <div style="font-size:0.75rem; color:#64748B; font-weight:500;">Predictive mobility platform</div>
-                            </div>
-                        </div>
-                        <div class="about-card-body">
-                            SmartBike AI predicts hourly bicycle departure demand at bike stations using historical bike-sharing data. Its purpose is to help identify stations that may need additional bikes and support proactive rebalancing before docks empty during peak transit hours.
-                        </div>
-                    </div>
-                    <div class="about-footer-tag">
-                        <span style="color:#2563EB; font-weight:700;">●</span>
-                        <span>Focus Corridor: San Francisco Bay Area Transit Nodes</span>
-                    </div>
-                </div>
-
-                <!-- Card 2: Demand Prediction -->
-                <div class="about-card about-card-purple">
-                    <div>
-                        <div class="about-header-row">
-                            <div class="about-icon-box" style="background:#F5F3FF; color:#7C3AED; border:1px solid #DDD6FE;">
-                                🧠
-                            </div>
-                            <div>
-                                <div class="about-card-title">Demand Prediction</div>
-                                <div style="font-size:0.75rem; color:#64748B; font-weight:500;">Machine learning inference workflow</div>
-                            </div>
-                        </div>
-                        <div class="about-card-body">
-                            <ul class="about-list">
-                                <li>Select a station, date, and hour.</li>
-                                <li>The trained machine-learning model predicts expected departures.</li>
-                                <li>Compare predicted departures with estimated available bikes.</li>
-                                <li>Identify potential shortages before the selected hour.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="about-footer-tag">
-                        <span style="color:#7C3AED; font-weight:700;">●</span>
-                        <span>Model: Tuned XGBoost Regression</span>
-                    </div>
-                </div>
-
-                <!-- Card 3: Bike Transfer Recommendations -->
-                <div class="about-card about-card-emerald">
-                    <div>
-                        <div class="about-header-row">
-                            <div class="about-icon-box" style="background:#ECFDF5; color:#059669; border:1px solid #A7F3D0;">
-                                🔄
-                            </div>
-                            <div>
-                                <div class="about-card-title">Bike Transfer Recommendations</div>
-                                <div style="font-size:0.75rem; color:#64748B; font-weight:500;">Safe donor rebalancing logic</div>
-                            </div>
-                        </div>
-                        <div class="about-card-body">
-                            <ul class="about-list">
-                                <li>Find a station that may need additional bikes.</li>
-                                <li>Check nearby stations for safe surplus bikes.</li>
-                                <li>Recommend a transfer only when a suitable donor exists.</li>
-                                <li>Limit the transfer to the destination's shortage and each donor's safe surplus.</li>
-                                <li>Multi-Station Rebalancing: When one donor cannot cover the full shortage, sequence transfers from the nearest eligible donors.</li>
-                            </ul>
-                            <div class="about-note-box">
-                                <strong>Note:</strong> Availability and remaining-bike values are estimates based on historical network patterns and the operational assumption of zero incoming returns during the forecast hour.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-footer-tag">
-                        <span style="color:#059669; font-weight:700;">●</span>
-                        <span>Inventory Rule: Donor 3-Bike Safety Buffer Preserved</span>
-                    </div>
-                </div>
-
-                <!-- Card 4: Dataset and Technologies -->
-                <div class="about-card about-card-cyan">
-                    <div>
-                        <div class="about-header-row">
-                            <div class="about-icon-box" style="background:#F0F9FF; color:#0284C7; border:1px solid #BAE6FD;">
-                                💻
-                            </div>
-                            <div>
-                                <div class="about-card-title">Dataset and Technologies</div>
-                                <div style="font-size:0.75rem; color:#64748B; font-weight:500;">Verified technical foundation</div>
-                            </div>
-                        </div>
-                        <div class="about-card-body">
-                            <div class="about-chip-grid">
-                                <div class="about-chip">
-                                    <span class="about-chip-lbl">Dataset</span>
-                                    <span class="about-chip-val">SF Bay Area Bike Share</span>
-                                </div>
-                                <div class="about-chip">
-                                    <span class="about-chip-lbl">Historical Trips</span>
-                                    <span class="about-chip-val">669,959 Trips</span>
-                                </div>
-                                <div class="about-chip">
-                                    <span class="about-chip-lbl">Stations</span>
-                                    <span class="about-chip-val">70 Stations</span>
-                                </div>
-                                <div class="about-chip">
-                                    <span class="about-chip-lbl">Production Model</span>
-                                    <span class="about-chip-val">XGBoost Regressor</span>
-                                </div>
-                            </div>
-                            <div style="margin-top:10px;">
-                                <div style="font-size:0.70rem; font-weight:700; color:#64748B; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px;">Technologies Used</div>
-                                <div class="tech-tag-row">
-                                    <span class="tech-tag">Python 3.14</span>
-                                    <span class="tech-tag">Streamlit</span>
-                                    <span class="tech-tag">Pandas</span>
-                                    <span class="tech-tag">NumPy</span>
-                                    <span class="tech-tag">Scikit-Learn</span>
-                                    <span class="tech-tag">Plotly</span>
-                                    <span class="tech-tag">Apache Parquet</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about-footer-tag">
-                        <span style="color:#0284C7; font-weight:700;">●</span>
-                        <span>Storage: Parquet Columnar Fast Retrieval</span>
-                    </div>
-                </div>
-            </div>
-            """
-        )
-
 
 if __name__ == "__main__":
     main()
+
