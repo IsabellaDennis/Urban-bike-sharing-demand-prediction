@@ -21,7 +21,7 @@
 \usepackage{chngcntr}
 \usepackage{amsmath, amssymb}
 
-\renewcommand{\contentsname}{CONTENTS}
+\renewcommand{\contentsname}{Contents}
 
 % Caption styling matching Final_report.pdf: "Fig X.Y Description" and "Table X.Y Description"
 \DeclareCaptionLabelSeparator{space}{ }
@@ -68,7 +68,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont Urban Bike-Sharing Demand Forecasting Using Machine Learning}
-\fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications}
+\fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications, MACE}
 \fancyfoot[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont \thepage}
 \renewcommand{\headrulewidth}{1.0pt}
 \renewcommand{\footrulewidth}{1.0pt}
@@ -85,7 +85,7 @@
 \fancypagestyle{plain}{%
     \fancyhf{}%
     \fancyhead[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont Urban Bike-Sharing Demand Forecasting Using Machine Learning}%
-    \fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications}%
+    \fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications, MACE}%
     \fancyfoot[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont \thepage}%
     \renewcommand{\headrulewidth}{1.0pt}%
     \renewcommand{\footrulewidth}{1.0pt}%
@@ -121,7 +121,7 @@
 % ==============================================================================
 \begin{titlepage}
     \begin{center}
-        \vspace*{0.3cm}
+        \vspace*{0.2cm}
         
         {\fontsize{14pt}{18pt}\selectfont\bfseries MAR ATHANASIUS COLLEGE OF ENGINEERING}\\[0.15cm]
         {\fontsize{14pt}{18pt}\selectfont\bfseries KOTHAMANGALAM}
@@ -173,6 +173,7 @@
 \newpage
 \thispagestyle{empty}
 \begin{center}
+\vspace*{0.2cm}
     {\fontsize{14pt}{18pt}\selectfont\bfseries MAR ATHANASIUS COLLEGE OF ENGINEERING}\\[0.15cm]
     {\fontsize{14pt}{18pt}\selectfont\bfseries KOTHAMANGALAM}\\[0.25cm]
     {\fontsize{14pt}{18pt}\selectfont\bfseries (Government Aided Autonomous Institution)}\\[0.35cm]
@@ -211,13 +212,12 @@
 {\fontsize{14pt}{18pt}\selectfont\bfseries Faculty Guide} & {\fontsize{14pt}{18pt}\selectfont\bfseries Head of the Department} \\
 \end{tabular*}
 
-\vspace{1.5cm plus 0.3cm minus 0.2cm}
+\vspace{1.0cm plus 0.3cm minus 0.2cm}
 
 \noindent
 \begin{tabular*}{\textwidth}{@{}l @{\extracolsep{\fill}} p{5.5cm}@{}}
-{\fontsize{13pt}{17pt}\selectfont Dr. Manu John} & \\
-{\fontsize{13pt}{17pt}\selectfont Prof. Minu Maria Joseph} & \\[0.2cm]
-{\fontsize{14pt}{18pt}\selectfont\bfseries Project Coordinators} & {\fontsize{14pt}{18pt}\selectfont\bfseries Internal Examiners} \\
+{\fontsize{13pt}{17pt}\selectfont Dr. Manu John} & \\[0.1cm]
+{\fontsize{14pt}{18pt}\selectfont\bfseries Project Coordinator} & {\fontsize{14pt}{18pt}\selectfont\bfseries Internal Examiner} \\
 \end{tabular*}
 
 % ==============================================================================
@@ -236,13 +236,13 @@
 
 I express my deepest praise, gratitude, and devotion to God Almighty for His boundless grace, wisdom, and blessings that guided me throughout the conceptualization, execution, and successful completion of this mini project.
 
-I express my profound gratitude to Dr. Bos Mathew Jos, Principal of Mar Athanasius College of Engineering, Kothamangalam, for providing the state-of-the-art academic environment, technical infrastructure, and facilities essential for pursuing this project work.
+I extend my heartfelt thanks to the Management and the Department of Computer Applications of Mar Athanasius College of Engineering, Kothamangalam, for providing me with the opportunity and necessary facilities to undertake this mini project as part of the MCA curriculum.
 
 I place on record my sincere thanks and respectful gratitude to Dr. Sonia Abraham, Professor and Head of the Department of Computer Applications, for her constant support, valuable encouragement, academic counsel, and for ensuring access to all necessary computing and software resources.
 
-I am immensely indebted to my esteemed faculty guide, Prof. Sibu Skaria, Assistant Professor in the Department of Computer Applications, whose insightful guidance, rigorous technical feedback, continuous encouragement, and detailed supervision were vital to every stage of this research. His constructive suggestions during data preparation, feature leakage auditing, and model benchmarking contributed immeasurably to the success of this study.
+I am immensely indebted to my esteemed faculty guide, Prof. Sibu Skaria, Associate Professor in the Department of Computer Applications, whose insightful guidance, rigorous technical feedback, continuous encouragement, and detailed supervision were vital to every stage of this research. His constructive suggestions during data preparation, feature leakage auditing, and model benchmarking contributed immeasurably to the success of this study.
 
-I also extend my heartfelt thanks to the Project Coordinators and all the faculty and non-teaching members of the Department of Computer Applications for their timely support, co-operation, and assistance throughout the semester.
+I also extend my heartfelt thanks and sincere gratitude to my Project Coordinators, Dr. Manu John and Prof. Minu Maria Joseph, along with all the faculty and non-teaching members of the Department of Computer Applications, for their timely support, cooperation, and assistance throughout the semester.
 
 Finally, I convey my deepest appreciation to my beloved parents, family members, and friends for their enduring patience, unconditional love, moral support, and motivation, which served as a constant pillar of strength throughout this project.
 
@@ -259,13 +259,15 @@ Finally, I convey my deepest appreciation to my beloved parents, family members,
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
-Urban bike-sharing systems (BSS) have emerged as pivotal green transportation infrastructures in contemporary smart cities, providing flexible, cost-effective, and zero-emission first-and-last-mile connectivity. However, modern dock-based bike-sharing networks suffer from severe structural inventory imbalances caused by tidal commuter flows. During peak morning and evening transit intervals, commuter surges exhaust available bicycles at residential docks (causing checkout stockouts) and saturate docking capacity at commercial and transit centers (causing return rejections). Effective fleet rebalancing requires accurate, station-specific, and hour-specific demand forecasting without forward-looking temporal data leakage.
+Urban bike-sharing systems provide an eco-friendly, affordable, and convenient mode of transportation in modern cities. However, variations in travel patterns and user demand can create an imbalance in bicycle availability across stations. Some stations may run out of bicycles, while others may have more bicycles than required. Accurate demand forecasting can help address these issues by predicting the number of bicycle departures expected at different stations and times.
 
-This project designs and implements an end-to-end, production-ready machine learning framework and interactive decision-support application for hourly station-level departure demand forecasting across 70 docking stations in the San Francisco Bay Area Bike Share network. Using a foundational dataset of 669,959 validated historical trip transactions recorded over 733 calendar days (August 29, 2013 to August 31, 2015), the system formulates a continuous spatio-temporal matrix of 1,230,810 station-hour observations, explicitly capturing zero-demand hours to prevent dropout bias. A comprehensive feature engineering pipeline generates 54 strictly causal predictors encompassing trigonometric cyclical temporal representations, multi-scale historical demand lags (1h, 2h, 3h, 24h, 168h), strictly backward-looking rolling statistical aggregations (6h, 12h, 24h), and calendar indicators. An empirical leakage audit establishes zero target leakage and zero lookahead bias across all predictors.
+This project focuses on developing a machine learning-based system for forecasting hourly bike-sharing demand across 70 stations in the San Francisco Bay Area Bike Share network. The study uses 669,959 historical trip records collected between August 2013 and August 2015. The dataset is examined, cleaned, and preprocessed to improve data quality and prepare it for model development. Hourly demand is calculated for each station, including hours with zero departures, to provide a more complete representation of station activity. Relevant temporal and historical demand patterns are considered to improve prediction performance.
 
-To simulate real-world production deployment, models are trained and evaluated using a strict chronological split (70\% training: 861,560 rows; 15\% validation: 184,590 rows; 15\% unseen future testing: 184,660 rows). Three competitive ensemble regression algorithms---Random Forest Regressor, Tuned Extreme Gradient Boosting (XGBoost), and Categorical Boosting (CatBoost)---are independently trained and benchmarked. Tuned XGBoost achieves the best model performance on the out-of-sample test partition with the lowest Mean Absolute Error of 0.430550, Root Mean Squared Error of 0.898213, and a Coefficient of Determination ($R^2$) of 0.737418, explaining over 73.7\% of network-wide hourly demand variance.
+Three machine learning algorithms, namely Random Forest, XGBoost, and CatBoost, are implemented and evaluated to identify the most suitable model for predicting station-level demand. The models are trained using historical data and evaluated on a separate test dataset to assess their ability to predict demand for unseen observations. Among the evaluated models, the tuned XGBoost model achieves the best performance, with a Mean Absolute Error (MAE) of 0.4306, a Root Mean Squared Error (RMSE) of 0.8982, and an R² score of 0.7374.
 
-The selected model is integrated into a production Streamlit web application powered by columnar Apache Parquet data caching, sub-second inference latency, station-level diurnal profile analysis, and an automated multi-station bike redistribution engine that computes net station balances and recommends transfer quantities from nearest safe donor stations while preserving a mandatory 3-bike safety buffer. The system demonstrates practical feasibility as an operational decision-support tool for urban transit dispatchers.
+The selected model is integrated into a Streamlit-based web application that provides an interactive interface for hourly demand prediction. Users can select a bike station, date, and hour to obtain the predicted demand. The application also includes a Demand History section for exploring historical departure patterns and comparing demand across stations. In addition, a bike redistribution feature uses predicted demand and station availability to identify stations that may require additional bicycles and stations that can safely provide surplus bicycles for transfer.
+
+The proposed system combines demand forecasting, historical analysis, and redistribution recommendations in a single application. It demonstrates the potential of machine learning to support better bicycle availability, improve station-level inventory planning, and assist decision-making in urban bike-sharing networks.
 
 \newpage
 
@@ -302,7 +304,7 @@ The selected model is integrated into a production Streamlit web application pow
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont Urban Bike-Sharing Demand Forecasting Using Machine Learning}
-\fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications}
+\fancyfoot[L]{\rmfamily\fontsize{11pt}{13pt}\selectfont Department of Computer Applications, MACE}
 \fancyfoot[R]{\rmfamily\fontsize{11pt}{13pt}\selectfont \thepage}
 \renewcommand{\headrulewidth}{1.0pt}
 \renewcommand{\footrulewidth}{1.0pt}
@@ -318,7 +320,7 @@ In contemporary urban planning and sustainable transportation engineering, munic
 
 Despite their rapid global adoption, modern docked bike-sharing networks face severe operational and logistical vulnerabilities that threaten their service reliability. The primary challenge is the structural inventory imbalance caused by asymmetric commuter flows. During morning peak hours, tidal commuter volumes depart from residential areas and commuter rail terminals toward commercial districts, rapidly exhausting available bikes and precipitating stockouts. In the evening, the flow reverses, saturating destination docks and causing return rejections. Traditional reactive rebalancing relies on manual transport vans after stations run empty, which incurs severe traffic delays and operating expenses.
 
-Advances in data-driven analytics have positioned machine learning (ML) as an effective solution for urban mobility forecasting. Machine learning models uncover complex, non-linear relationships across temporal cycles and commuter rhythms without requiring rigid physical assumptions. In particular, ensemble decision-tree regressors---such as Random Forest, Extreme Gradient Boosting (XGBoost), and Categorical Boosting (CatBoost)---are exceptionally well-suited for tabular mobility records due to their natural ability to capture threshold-based behaviors while maintaining strong resistance to overfitting and collinearity.
+Advances in data-driven analytics have positioned machine learning (ML) as an effective solution for urban mobility forecasting. Machine learning models uncover complex, non-linear relationships across temporal cycles and commuter rhythms without requiring rigid physical assumptions. In particular, ensemble decision-tree regressors such as Random Forest, Extreme Gradient Boosting (XGBoost), and Categorical Boosting (CatBoost) are exceptionally well-suited for tabular mobility records due to their natural ability to capture threshold-based behaviors while maintaining strong resistance to overfitting and collinearity.
 
 This project designs and implements an end-to-end machine learning framework and interactive operational decision-support tool to forecast hourly station-level bicycle departures across the 70-station San Francisco Bay Area Bike Share network. Using 669,959 historical trips across 733 days, the system builds a continuous Cartesian station-hour grid of 1,230,810 observations, explicitly populating zero-demand hours to eliminate selection bias. An audited pipeline generates 54 causal predictors, including cyclical encodings, multi-scale historical demand lags, and rolling statistics. Benchmarked under a strict chronological protocol, the selected Tuned XGBoost regressor achieves an out-of-sample MAE of 0.4305 and $R^2$ of 0.7374, and is deployed via a high-speed Streamlit application featuring automated Smart Dispatch rebalancing.
 \clearpage
